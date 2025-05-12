@@ -29,9 +29,19 @@ let postCRUD = async (req, res) => {
   res.send("post crud");
 };
 
+// GET /get-crud
+let displayGetCRUD = async (req, res) => {
+  let data = await CRUDService.getAllUsers();
+  console.log(data);
+  res.render("displayCRUD.ejs", {
+    dataTable: data,
+  });
+};
+
 module.exports = {
   getHomePage: getHomePage,
   getAboutPage: getAboutPage,
   getCRUD: getCRUD,
   postCRUD: postCRUD,
+  displayGetCRUD: displayGetCRUD,
 };
