@@ -1,3 +1,4 @@
+import { where } from "sequelize";
 import db from "../models/index";
 import bcrypt from "bcryptjs";
 const salt = bcrypt.genSaltSync(10);
@@ -85,9 +86,22 @@ let updateUserData = (data) => {
   });
 };
 
+let deleteUserById = (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const user = await db.User.findOne({ where: { id: userId } });
+      await user.destroy();
+      resolve("Delete user success");
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 module.exports = {
   createNewUser,
   getAllUsers,
   getUserInfoById,
   updateUserData,
+  deleteUserById,
 };
