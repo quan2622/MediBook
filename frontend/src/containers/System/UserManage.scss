@@ -1,0 +1,66 @@
+.user-container {
+  .user-table {
+    #customers {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+
+      td,
+      th {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      tr:hover {
+        background-color: #ddd;
+      }
+
+      th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #04aa6d;
+        color: white;
+      }
+
+      .btn-edit {
+        width: 50px;
+        border: none;
+        outline: none;
+        background: #fef9f0;
+        color: #f5a524;
+        height: 28px;
+        min-height: 28px;
+        width: 28px;
+        min-width: 28px;
+        border-radius: 32px;
+
+        &:hover {
+          background: #fef9f0 !important;
+          color: #f5a524;
+        }
+      }
+      .btn-delete {
+        width: 50px;
+        border: none;
+        outline: none;
+        background: #fef0f5;
+        color: #f31260;
+        height: 28px;
+        min-height: 28px;
+        width: 28px;
+        min-width: 28px;
+        border-radius: 32px;
+
+        &:hover {
+          background: #fef0f5 !important;
+          color: #f31260;
+        }
+      }
+    }
+  }
+}

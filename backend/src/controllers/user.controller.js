@@ -42,13 +42,13 @@ const getAllUser = async (req, res, next) => {
 // POST /api/create-user
 const createUser = async (req, res, next) => {
   const response = await userService.createNewUser(req.body);
-  return res.status(200).json({ response })
+  return res.status(200).json({ ...response })
 }
 
 // POST /api/edit-user
 const editUser = async (req, res, next) => {
   const response = await userService.updateUserData(req.body);
-  return res.status(200).json({ response })
+  return res.status(200).json({ ...response })
 }
 
 // DELETE /api/delete-user
@@ -59,7 +59,7 @@ const deleteUser = async (req, res, next) => {
       EM: "Missing required parameters"
     });
   const response = await userService.deleteUserById(req.body.id);
-  return res.status(200).json({ response })
+  return res.status(200).json({ ...response })
 }
 
 
