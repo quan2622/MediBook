@@ -20,6 +20,26 @@ const hanleLogin = async (req, res, next) => {
   })
 }
 
+// GET /api/get-all-user
+const getAllUser = async (req, res, next) => {
+  let { id } = req.body;
+  if (!id) {
+    return res.status(500).json({
+      EC: 1,
+      message: "Missing required parameter",
+      user: [],
+    })
+  }
+
+  const user = await userService.getAllUser(id);
+  res.status(200).json({
+    EC: 0,
+    EM: "OK",
+    user
+  })
+}
+
 module.exports = {
   hanleLogin,
+  getAllUser,
 }
