@@ -6,6 +6,7 @@ import * as actions from "../../store/actions";
 
 import './Login.scss';
 import { FormattedMessage } from 'react-intl';
+import userService from "../../services/user.service";
 
 class Login extends Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class Login extends Component {
       userName: '',
       passWord: '',
       isShowPassword: false,
+      EM: '',
     }
   }
 
@@ -28,8 +30,21 @@ class Login extends Component {
       })
   }
 
-  handleLogin = () => {
-    console.log(this.state.userName, this.state.passWord)
+  handleLogin = async () => {
+    this.setState({ EM: '' });
+    try {
+      let response = await userService.handleLogin(this.state.userName, this.state.passWord);
+      if (response) {
+        if (response.EC !== 0)
+          this.setState({ EM: response.EM });
+        else {
+          this.props.userLoginSuccess(response.user);
+        }
+      }
+    } catch (error) {
+      if (error.response && error.response.data)
+        this.setState({ EM: error.response.data.message });
+    }
   }
 
   render() {
@@ -42,20 +57,23 @@ class Login extends Component {
               Login
             </div>
             <div className="col-12 form-group login-input">
-              <span>User name</span>
+              <span className="label-formLogin">User name</span>
               <input type="text" className="form-control" placeholder="Enter your username"
                 value={this.state.userName} onChange={(e) => this.handleOnChangeInput(e, "UN")} />
             </div>
             <div className="col-12 form-group login-input">
-              <span>Password</span>
+              <span className="label-formLogin">Password</span>
               <div className="show-hide-password">
                 <input type={this.state.isShowPassword ? "text" : "password"}
                   className="form-control" placeholder="Enter your password"
                   value={this.state.passWord} onChange={(e) => this.handleOnChangeInput(e, "PW")} />
                 <span onClick={() => this.setState({ isShowPassword: !this.state.isShowPassword })}>
-                  <i class={this.state.isShowPassword ? "far fa-eye" : "far fa-eye-slash"}></i>
+                  <i className={this.state.isShowPassword ? "far fa-eye" : "far fa-eye-slash"}></i>
                 </span>
               </div>
+            </div>
+            <div className="col-12 label-formLogin" style={{ 'color': 'red' }}>
+              {this.state.EM}
             </div>
             <div className="col-12 btn-login-content">
               <button className="btn-login" onClick={this.handleLogin}>
@@ -88,8 +106,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     navigate: (path) => dispatch(push(path)),
-    adminLoginSuccess: (adminInfo) => dispatch(actions.adminLoginSuccess(adminInfo)),
-    adminLoginFail: () => dispatch(actions.adminLoginFail()),
+    // userLoginFail: () => dispatch(actions.userLoginFail()),
+    userLoginSuccess: (userInfo) => dispatch(actions.userLoginSuccess(userInfo)),
   };
 };
 
