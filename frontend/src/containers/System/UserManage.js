@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import "./UserManage.scss"
 import userService from "../../services/user.service";
 import ModalUser from "./Modal/ModalUser";
-
+import { emitter } from "../../utils/emitter";
 class UserManage extends Component {
 
     constructor(props) {
@@ -12,6 +12,8 @@ class UserManage extends Component {
         this.state = {
             users: [],
             isOpenModal: false,
+            dataUpdateUser: {},
+            isUpdate: false,
         }
     }
 
@@ -27,7 +29,7 @@ class UserManage extends Component {
     }
 
     handleAddNewUser = () => {
-        this.setState({ isOpenModal: true });
+        this.setState({ isOpenModal: true, isUpdate: false });
     }
 
     toggleUserModal = () => {
@@ -40,6 +42,7 @@ class UserManage extends Component {
             if (response.EC === 0) {
                 await this.getAllUserForm();
                 this.setState({ isOpenModal: false });
+                emitter.emit('EVENT_CLEAR_MODAL_DATA');
             } else {
                 alert(response.EM);
             }
@@ -48,10 +51,39 @@ class UserManage extends Component {
         }
     }
 
+    handleDeleteUser = async (userId) => {
+        try {
+            let response = await userService.deleteUser(userId);
+            await this.getAllUserForm();
+            alert(response.EM);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    handleUpdateUser = async (user) => {
+        this.setState({ isOpenModal: true, dataUpdateUser: user, isUpdate: true });
+    }
+
+
+    udpateUserData = async (dataUpdate) => {
+        try {
+            let response = await userService.updateDataUser(dataUpdate);
+            if (response.EC === 0) {
+                await this.getAllUserForm();
+                this.setState({ isOpenModal: false });
+            }
+            alert(response.EM);
+        } catch (error) {
+
+        }
+    }
+
     render() {
         return (
             <div className="user-container">
-                <ModalUser isOpen={this.state.isOpenModal} toggleUserModal={this.toggleUserModal} createNewUser={this.createNewUser} />
+                <ModalUser isOpen={this.state.isOpenModal} toggleUserModal={this.toggleUserModal}
+                    createNewUser={this.createNewUser} dataUpdateUser={this.state.dataUpdateUser} isUpdate={this.state.isUpdate} udpateUserData={this.udpateUserData} />
                 <div className="text-center title">
                     Manage users quan test
                 </div>
@@ -79,8 +111,12 @@ class UserManage extends Component {
                                     <td>{user.lastName}</td>
                                     <td>{user.address}</td>
                                     <td className="d-flex gap-2">
-                                        <button className="btn-edit"><i className="far fa-edit"></i></button>
-                                        <button className="btn-delete"><i className="far fa-trash-alt"></i></button>
+                                        <button className="btn-edit" onClick={() => this.handleUpdateUser(user)}>
+                                            <i className="far fa-edit"></i>
+                                        </button>
+                                        <button className="btn-delete" onClick={() => this.handleDeleteUser(user.id)}>
+                                            <i className="far fa-trash-alt"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             ))}

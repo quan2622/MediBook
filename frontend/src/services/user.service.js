@@ -24,8 +24,26 @@ const createNewUser = (data) => {
   }
 }
 
+const deleteUser = (id) => {
+  try {
+    return axios.delete(`/api/delete-user`, { data: { userId: id } });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const updateDataUser = (data) => {
+  try {
+    return axios.put('/api/edit-user', data);
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export default {
   handleLogin,
   getAllUser,
   createNewUser,
+  deleteUser,
+  updateDataUser,
 }

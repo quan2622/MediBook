@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap"
 import "./ModalUser.scss"
+import { emitter } from "../../../utils/emitter";
 class ModalUser extends Component {
 
   constructor(props) {
@@ -14,9 +15,47 @@ class ModalUser extends Component {
       lastName: '',
       address: '',
     }
+
+    this.listenToEmitter();
   }
 
-  componentDidMount() {
+  listenToEmitter() {
+    emitter.on("EVENT_CLEAR_MODAL_DATA", () => {
+      this.setState({
+        id: '',
+        email: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        address: '',
+      })
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    const { dataUpdateUser, isOpen, isUpdate } = this.props;
+
+    if (isOpen && isUpdate && Object.keys(dataUpdateUser).length > 0 && dataUpdateUser !== prevProps.dataUpdateUser) {
+      this.setState({
+        id: dataUpdateUser.id,
+        email: dataUpdateUser.email || '',
+        password: 'hard_code',
+        firstName: dataUpdateUser.firstName || '',
+        lastName: dataUpdateUser.lastName || '',
+        address: dataUpdateUser.address || '',
+      });
+    }
+
+    if (isOpen && !isUpdate && prevProps.isUpdate !== isUpdate) {
+      this.setState({
+        id: '',
+        email: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        address: '',
+      });
+    }
   }
 
 
@@ -50,6 +89,12 @@ class ModalUser extends Component {
     }
   }
 
+  handleSaveUser = () => {
+    let isValid = this.checkValidateInput();
+    if (isValid) {
+      this.props.udpateUserData(this.state);
+    }
+  }
 
   render() {
     return (
@@ -60,11 +105,11 @@ class ModalUser extends Component {
           <div className="modal-user-body">
             <div className="input-container">
               <label>Email</label>
-              <input type="text" value={this.state.email} onChange={(e) => this.handleInput(e, 'email')} />
+              <input type="text" value={this.state.email} onChange={(e) => this.handleInput(e, 'email')} disabled={this.props.isUpdate} />
             </div>
             <div className="input-container">
               <label>Password</label>
-              <input type="password" value={this.state.password} onChange={(e) => this.handleInput(e, 'password')} />
+              <input type="password" value={this.state.password} onChange={(e) => this.handleInput(e, 'password')} disabled={this.props.isUpdate} />
             </div>
             <div className="input-container">
               <label>First Name</label>
@@ -81,9 +126,15 @@ class ModalUser extends Component {
           </div>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={() => this.handleAddNewUser()} className="px-3">
-            Save
-          </Button>
+          {!this.props.isUpdate ?
+            <Button color="primary" onClick={() => this.handleAddNewUser()} className="px-3">
+              Save
+            </Button>
+            :
+            <Button color="primary" onClick={() => this.handleSaveUser()} className="px-3">
+              Save Change
+            </Button>
+          }
           <Button color="secondary" onClick={() => this.toggle()} className="px-3">
             Cancel
           </Button>

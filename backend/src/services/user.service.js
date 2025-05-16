@@ -79,7 +79,6 @@ const createNewUser = async (data) => {
   return new Promise(async (resolve, reject) => {
     try {
       const checkEmail = await checkUserEmail(data.email);
-      console.log("check is exist: ", checkEmail);
       if (!checkEmail) {
         let hash = await hashPassword(data.password);
         await db.User.create({
@@ -122,7 +121,7 @@ const hashPassword = (password) => {
 const updateUserData = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (!user) {
+      if (!data.id) {
         resolve({
           EC: 2,
           EM: "Missing required parameters"
