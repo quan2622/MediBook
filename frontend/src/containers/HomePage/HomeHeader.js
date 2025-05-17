@@ -3,10 +3,17 @@ import { connect } from 'react-redux';
 import "./HomeHeader.scss"
 import logo from "../../assets/images/logo.svg"
 import { FormattedMessage } from "react-intl";
-
+import * as actions from "../../store/actions"
+import { LANGUAGES } from "../../utils";
 class HomeHeader extends Component {
 
+
+  handleChangeLanguage = (language) => {
+    this.props.changeLangue(language);
+  }
+
   render() {
+    let language = this.props.lang;
     return (
       <>
         <div className="home-header-container">
@@ -48,11 +55,15 @@ class HomeHeader extends Component {
                 <i className="far fa-question-circle"></i>
                 <FormattedMessage id="home-header.support" />
               </div>
-              <div className="language-vi active">VN</div>
-              <div className="language-en">EN</div>
+              <div className={`language-vi ${language === LANGUAGES.VI ? 'active' : ''}`}>
+                <span onClick={() => this.handleChangeLanguage(LANGUAGES.VI)}>VN</span>
+              </div>
+              <div className={`language-en ${language === LANGUAGES.EN ? 'active' : ''}`}>
+                <span onClick={() => this.handleChangeLanguage(LANGUAGES.EN)}>EN</span>
+              </div>
             </div>
           </div>
-        </div>
+        </div >
         <div className="home-header-banner">
           <div className="content-top">
             <div className="title1"><FormattedMessage id="banner.title1" /></div>
@@ -130,6 +141,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    changeLangue: (languageType) => dispatch(actions.changeLangue(languageType)),
   };
 };
 
