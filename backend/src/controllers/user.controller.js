@@ -3,7 +3,6 @@ import userService from "../services/user.service"
 // POST /api/login
 const hanleLogin = async (req, res, next) => {
   const { email, password } = req.body;
-  console.log("here", email, ' - ', password);
   if (!email || !password) {
     return res.status(500).json({
       EC: 1,
