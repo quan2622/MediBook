@@ -173,10 +173,32 @@ const deleteUserById = (userId) => {
   });
 };
 
+const getAllCodeService = async (type) => {
+  try {
+    if (!type) {
+      return {
+        EC: 1,
+        EM: "Missing parameter",
+      }
+    } else {
+      const res = await db.Allcode.findAll({ where: { type: type } });
+      return {
+        EC: 0,
+        EM: "success",
+        data: res,
+      };
+    }
+
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   handleUserLogin,
   getAllUser,
   createNewUser,
   updateUserData,
   deleteUserById,
+  getAllCodeService,
 }

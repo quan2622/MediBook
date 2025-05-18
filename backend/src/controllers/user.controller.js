@@ -62,7 +62,19 @@ const deleteUser = async (req, res, next) => {
   return res.status(200).json({ ...response })
 }
 
+const getAllCode = async (req, res, next) => {
+  try {
 
+    let data = await userService.getAllCodeService(req.query.type);
+    return res.status(200).json(data);
+  } catch (error) {
+    console.log("Get all_code server: ", error);
+    return res.status(200).json({
+      EC: -1,
+      EM: "Error form server"
+    });
+  }
+}
 
 module.exports = {
   hanleLogin,
@@ -70,4 +82,5 @@ module.exports = {
   createUser,
   editUser,
   deleteUser,
+  getAllCode,
 }
