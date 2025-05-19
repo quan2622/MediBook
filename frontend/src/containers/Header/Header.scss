@@ -22,6 +22,12 @@
   }
 
   .language {
+    .welcome {
+      margin-right: 12px;
+      border-right: 1px solid #333;
+      padding-right: 12px;
+    }
+
     .language-vi {
       cursor: pointer;
       opacity: 0.3;
