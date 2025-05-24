@@ -1,5 +1,6 @@
 import actionTypes from './actionTypes';
 import userService from "../../services/user.service"
+import axios from "axios";
 
 // GENDER
 export const fetchGenderStart = () => {
@@ -75,4 +76,31 @@ export const fetchRoleSuccess = (genderData) => ({
 
 export const fetchRoleFailed = () => ({
   type: actionTypes.FETCH_ROLE_FAILED
+})
+
+// Add New User
+export const saveUserRedux = (dataSave) => {
+  return async (dispatch, getState) => {
+    try {
+      console.log("check data: ", dataSave)
+      let res = await userService.createNewUser(dataSave);
+      console.log("check create: ", res);
+      if (res && res.EC === 0) {
+        dispatch(saveUserSuccess());
+      } else {
+        dispatch(saveUserFailed());
+      }
+    } catch (error) {
+      saveUserFailed();
+      console.log("saveUserRedux", error);
+    }
+  }
+}
+
+export const saveUserSuccess = () => ({
+  type: actionTypes.SAVE_USER_SUCCESS,
+})
+
+export const saveUserFailed = () => ({
+  type: actionTypes.SAVE_USER_FAILED
 })
