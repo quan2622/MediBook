@@ -40,10 +40,19 @@ const updateDataUser = (data) => {
   }
 }
 
+const getAllCodeService = (typeOfCode) => {
+  try {
+    return axios.get(`/api/allcode?type=${typeOfCode}`);
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export default {
   handleLogin,
   getAllUser,
   createNewUser,
   deleteUser,
   updateDataUser,
+  getAllCodeService,
 }
