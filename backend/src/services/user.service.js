@@ -91,6 +91,7 @@ const createNewUser = async (data) => {
           gender: data.gender,
           roleId: data.role,
           positionId: data.position,
+          image: data.avatar
         });
         resolve({
           EC: 0,
@@ -137,6 +138,8 @@ const updateUserData = (data) => {
         user.roleId = data.roleId;
         user.positionId = data.positionId;
         user.gender = data.gender;
+        if (data.avatar)
+          user.image = data.avatar;
         await user.save();
         resolve({
           EC: 0,

@@ -45,7 +45,7 @@ class TableManageUser extends Component {
         </thead>
         <tbody>
           {dataTable && dataTable.length > 0 && dataTable.map((item, index) => (
-            <tr >
+            <tr key={item.id}>
               <td>{item.email}</td>
               <td>{item.firstName}</td>
               <td>{item.lastName}</td>
