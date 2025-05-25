@@ -122,7 +122,7 @@ const hashPassword = (password) => {
 const updateUserData = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (!data.id) {
+      if (!data.id || !data.roleId || !data.positionId || !data.gender) {
         resolve({
           EC: 2,
           EM: "Missing required parameters"
@@ -133,6 +133,10 @@ const updateUserData = (data) => {
         user.firstName = data.firstName;
         user.lastName = data.lastName;
         user.address = data.address;
+        user.phoneNumber = data.phoneNumber;
+        user.roleId = data.roleId;
+        user.positionId = data.positionId;
+        user.gender = data.gender;
         await user.save();
         resolve({
           EC: 0,

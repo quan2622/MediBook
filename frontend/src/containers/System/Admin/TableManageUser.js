@@ -26,6 +26,10 @@ class TableManageUser extends Component {
     this.props.deleteUser(userId);
   }
 
+  handleUpdate = (user) => {
+    this.props.handleEditUser(user)
+  }
+
   render() {
     const { dataTable } = this.state;
     return (
@@ -47,7 +51,7 @@ class TableManageUser extends Component {
               <td>{item.lastName}</td>
               <td>{item.address}</td>
               <td>
-                <button className="btn-edit" >
+                <button className="btn-edit" onClick={() => this.handleUpdate(item)}>
                   <i className="far fa-edit"></i>
                 </button>
                 <button className="btn-delete" onClick={() => this.handleDelete(item.id)}>

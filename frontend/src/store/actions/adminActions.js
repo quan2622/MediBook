@@ -14,7 +14,7 @@ export const fetchGenderStart = () => {
         dispatch(fetchGenderSuccess(res.data));
       } else dispatch(fetchGenderFailed());
     } catch (error) {
-      fetchGenderFailed();
+      dispatch(fetchGenderFailed());
       console.log("fetchGenderStart", error);
     }
   }
@@ -38,7 +38,7 @@ export const fetchPositionStart = () => {
         dispatch(fetchPositionSuccess(res.data));
       } else dispatch(fetchPositionFailed());
     } catch (error) {
-      fetchPositionFailed();
+      dispatch(fetchPositionFailed());
       console.log("fetchPositionStart", error);
     }
   }
@@ -63,7 +63,7 @@ export const fetchRoleStart = () => {
         dispatch(fetchRoleSuccess(res.data));
       } else dispatch(fetchRoleFailed());
     } catch (error) {
-      fetchRoleFailed();
+      dispatch(fetchRoleFailed());
       console.log("fetchRoleStart", error);
     }
   }
@@ -93,7 +93,7 @@ export const saveUserRedux = (dataSave) => {
         dispatch(saveUserFailed());
       }
     } catch (error) {
-      saveUserFailed();
+      dispatch(saveUserFailed());
       console.log("saveUserRedux", error);
     }
   }
@@ -116,7 +116,7 @@ export const getAllUser = () => {
         dispatch(getDataSuccess(res.user.reverse()));
       } else dispatch(getDataFailed());
     } catch (error) {
-      fetchRoleFailed();
+      dispatch(getDataFailed());
       console.log("fetchRoleStart", error);
     }
   }
@@ -146,7 +146,7 @@ export const deleteUser = (userId) => {
       }
     } catch (error) {
       toast.error("Delete user error");
-      deleteUserFailed();
+      dispatch(deleteUserFailed());
       console.log("saveUserRedux", error);
     }
   }
@@ -158,4 +158,34 @@ export const deleteUserSuccess = () => ({
 
 export const deleteUserFailed = () => ({
   type: actionTypes.DELETE_USER_FAILED
+})
+
+// Edit User
+export const editUser = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      console.log("check data: ", data);
+      let res = await userService.updateDataUser(data);
+      if (res && res.EC === 0) {
+        toast.success(res.EM);
+        dispatch(editUserSuccess());
+        dispatch(getAllUser());
+      } else {
+        toast.error(res.EM);
+        dispatch(editUserFailed());
+      }
+    } catch (error) {
+      toast.error("Delete user error");
+      dispatch(editUserFailed());
+      console.log("saveUserRedux", error);
+    }
+  }
+}
+
+export const editUserSuccess = () => ({
+  type: actionTypes.EDIT_USER_SUCCESS,
+})
+
+export const editUserFailed = () => ({
+  type: actionTypes.EDIT_USER_FAILED,
 })
