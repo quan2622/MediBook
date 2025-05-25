@@ -7,6 +7,7 @@ import * as actions from "../../../store/actions";
 import "./UserRedux.scss";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
+import TableManageUser from "./TableManageUser";
 
 class UserRedux extends Component {
     constructor(props) {
@@ -73,6 +74,22 @@ class UserRedux extends Component {
                 },
             });
         }
+        if (prevProps.userRedux !== this.props.userRedux) {
+            this.setState({
+                new_user: {
+                    email: "",
+                    password: "",
+                    firstName: "",
+                    lastName: "",
+                    phoneNumber: "",
+                    address: "",
+                    gender: "",
+                    position: "",
+                    role: "",
+                    avatar: null,
+                },
+            })
+        }
     }
 
     handleInputUser = (event, id) => {
@@ -109,6 +126,7 @@ class UserRedux extends Component {
             role: new_user.role,
             position: new_user.position,
         });
+        this.props.getAllUser();
     };
 
     validateForm = () => {
@@ -293,7 +311,7 @@ class UserRedux extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="row mt-3">
+                        <div className="row my-3">
                             <div className="col-12">
                                 <button
                                     className="btn btn-primary"
@@ -303,8 +321,12 @@ class UserRedux extends Component {
                                 </button>
                             </div>
                         </div>
+                        <div className="col-12">
+                            <TableManageUser />
+                        </div>
                     </div>
                 </div>
+
                 {isOpen && (
                     <Lightbox
                         mainSrc={imagePreviewUrl}
@@ -323,6 +345,7 @@ const mapStateToProps = (state) => {
         positionRedux: state.admin.positions,
         roleRedux: state.admin.roles,
         isLoadingGender: state.admin.isLoadingGender,
+        userRedux: state.admin.users,
     };
 };
 
@@ -332,6 +355,7 @@ const mapDispatchToProps = (dispatch) => {
         fetchPositionStart: () => dispatch(actions.fetchPositionStart()),
         fetchRoleStart: () => dispatch(actions.fetchRoleStart()),
         saveUserRedux: (data) => dispatch(actions.saveUserRedux(data)),
+        getAllUser: () => dispatch(actions.getAllUser()),
     };
 };
 

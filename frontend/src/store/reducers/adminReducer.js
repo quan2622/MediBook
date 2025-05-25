@@ -5,6 +5,7 @@ const initialState = {
   genders: [],
   roles: [],
   positions: [],
+  users: [],
   isLoadingGender: false,
 }
 
@@ -50,6 +51,27 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
         roles: []
+      }
+    // // Create user
+    // case actionTypes.SAVE_USER_SUCCESS:
+    //   alert("Create user success");
+    //   return
+
+    // case actionTypes.SAVE_USER_FAILED:
+    //   alert("Had error when call api to create new user");
+    //   return
+
+
+    case actionTypes.FETCH_ALL_USER_SUCCESS:
+      return {
+        ...state,
+        users: action.payload,
+      }
+
+    case actionTypes.FETCH_ALL_USER_FAILED:
+      return {
+        ...state,
+        users: []
       }
 
     default:

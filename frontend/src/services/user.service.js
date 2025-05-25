@@ -10,6 +10,7 @@ const handleLogin = (email, password) => {
 
 const getAllUser = (id) => {
   try {
+    // id is all if getAll data & idUser if get detail info user
     return axios.get('/api/get-all-user', { params: { id: id } });
   } catch (error) {
     console.log(error)
