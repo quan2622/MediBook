@@ -75,6 +75,10 @@ class UserRedux extends Component {
             });
         }
         if (prevProps.userRedux !== this.props.userRedux) {
+            let genderRedux = this.props.genderRedux;
+            let positionRedux = this.props.positionRedux;
+            let roleRedux = this.props.roleRedux;
+
             this.setState({
                 new_user: {
                     email: "",
@@ -83,9 +87,9 @@ class UserRedux extends Component {
                     lastName: "",
                     phoneNumber: "",
                     address: "",
-                    gender: "",
-                    position: "",
-                    role: "",
+                    position: positionRedux && positionRedux.length > 0 ? positionRedux[0].key : "",
+                    gender: genderRedux && genderRedux.length > 0 ? genderRedux[0].key : "",
+                    role: roleRedux && roleRedux.length > 0 ? roleRedux[0].key : "",
                     avatar: null,
                 },
             })
@@ -236,6 +240,7 @@ class UserRedux extends Component {
                                 <select
                                     className="form-select"
                                     onChange={(e) => this.handleInputUser(e, "gender")}
+                                    value={gender}
                                 >
                                     {!_.isEmpty(gender) &&
                                         gender.map((item, index) => (
@@ -256,6 +261,7 @@ class UserRedux extends Component {
                                 <select
                                     className="form-select"
                                     onChange={(e) => this.handleInputUser(e, "position")}
+                                    value={position}
                                 >
                                     {position &&
                                         position.length > 0 &&
@@ -275,11 +281,12 @@ class UserRedux extends Component {
                                 <select
                                     className="form-select"
                                     onChange={(e) => this.handleInputUser(e, "role")}
+                                    value={role}
                                 >
                                     {role &&
                                         role.length > 0 &&
                                         role.map((item, index) => (
-                                            <option key={item.id} value={item.key}>
+                                            <option key={item.id} value={item.key} >
                                                 {language === LANGUAGES.VI
                                                     ? item.valueVi
                                                     : item.valueEn}
