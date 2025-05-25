@@ -2,7 +2,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.sequelize.transaction(async (transaction) => {
       await queryInterface.changeColumn('Users', 'image', {
-        type: Sequelize.BLOB,
+        type: Sequelize.BLOB("long"),
         allowNull: true,
       }, { transaction });
     });
