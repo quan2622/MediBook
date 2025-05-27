@@ -3,7 +3,15 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import "./TableManageUser.scss"
 import * as actions from "../../../store/actions"
-import { Editor } from '@tinymce/tinymce-react';
+import MarkdownIt from 'markdown-it';
+import MdEditor from 'react-markdown-editor-lite';
+import 'react-markdown-editor-lite/lib/index.css';
+
+
+const mdParser = new MarkdownIt(/* Markdown-it options */);
+function handleEditorChange({ html, text }) {
+  console.log('handleEditorChange', html, text);
+}
 class TableManageUser extends Component {
   constructor(props) {
     super(props);
@@ -66,49 +74,7 @@ class TableManageUser extends Component {
           </tbody>
         </table>
 
-        <Editor
-          onInit={(event, editor) => this.editorRef.current = editor}
-          apiKey={process.env.REACT_APP_TINYMCE_API}
-          init={{
-            plugins: [
-              'anchor', 'autolink', 'charmap', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-              'mediaembed', 'casechange', 'formatpainter', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'editimage', 'mentions', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown', 'importword', 'exportword', 'exportpdf'
-            ],
-            toolbar: 'undo redo image | blocks fontfamily fontsize | bold italic underline strikethrough | link  media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-            mergetags_list: [
-              { value: 'First.Name', title: 'First Name' },
-              { value: 'Email', title: 'Email' },
-            ],
-            image_title: true,
-            automatic_uploads: true,
-            file_picker_types: 'image',
-            paste_data_images: true,
-            images_file_types: 'jpeg,jpg,png,gif,bmp,webp,svg',
-            file_picker_callback: (cb, value, meta) => {
-              const input = document.createElement('input');
-              input.setAttribute('type', 'file');
-              input.setAttribute('accept', 'image/*');
-
-              input.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-
-                const reader = new FileReader();
-                reader.addEventListener('load', () => {
-                  const id = 'blobid' + (new Date()).getTime();
-                  const blobCache = this.editorRef.current.editorUpload.blobCache;
-                  const base64 = reader.result.split(',')[1];
-                  const blobInfo = blobCache.create(id, file, base64);
-                  blobCache.add(blobInfo);
-
-                  cb(blobInfo.blobUri(), { title: file.name });
-                });
-                reader.readAsDataURL(file);
-              });
-
-              input.click();
-            },
-          }}
-        />
+        <MdEditor style={{ height: '500px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
 
       </>
     );
