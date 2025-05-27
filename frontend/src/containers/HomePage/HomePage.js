@@ -12,32 +12,34 @@ import About from "./Section/About";
 import HomeFooter from "./HomeFooter";
 
 const PrevArrow = (props) => {
-  const { onClick } = props;
+  const { onClick, currentSlide } = props;
+  let isDisable = currentSlide === 0;
   return (
-    <button className="slick-prev custom-btn" onClick={onClick}>
+    <button className={`slick-prev custom-btn ${isDisable ? 'slick-disable' : ''}`} onClick={onClick}>
       <i className="fa fa-chevron-left" />
     </button>
   );
 };
 
 const NextArrow = (props) => {
-  const { onClick } = props;
+  const { onClick, currentSlide, slideCount } = props;
+  const slideShow = 4;
+  let isDisable = currentSlide === slideCount - slideShow;
   return (
-    <button className="slick-next custom-btn" onClick={onClick}>
+    <button className={`slick-next custom-btn ${isDisable ? 'slick-disable' : ''}`} onClick={onClick}>
       <i className="fa fa-chevron-right" />
     </button>
   );
 };
 
 class HomePage extends Component {
-
   render() {
     let settings = {
       dots: true,
-      infinite: true,
+      infinite: false,
       speed: 500,
       slidesToShow: 4,
-      slidesToScroll: 1,
+      slidesToScroll: 4,
       prevArrow: <PrevArrow />,
       nextArrow: <NextArrow />,
       slidesMargin: 20,
