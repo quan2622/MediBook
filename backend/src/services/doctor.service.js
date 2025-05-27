@@ -10,7 +10,7 @@ const getTopDoctorHome = (limit) => {
         },
         limit: limit,
         order: [['createdAt', 'DESC']],
-        attributes: { exclude: ['password', 'image'] },
+        attributes: { exclude: ['password'] },
         include: [
           { model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
           { model: db.Allcode, as: 'genderData', attributes: ['valueEn', 'valueVi'] },

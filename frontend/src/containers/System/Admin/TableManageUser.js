@@ -50,7 +50,7 @@ class TableManageUser extends Component {
               <td>{item.firstName}</td>
               <td>{item.lastName}</td>
               <td>{item.address}</td>
-              <td>
+              <td className="table_action">
                 <button className="btn-edit" onClick={() => this.handleUpdate(item)}>
                   <i className="far fa-edit"></i>
                 </button>

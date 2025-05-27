@@ -49,6 +49,14 @@ const getAllCodeService = (typeOfCode) => {
   }
 }
 
+const getTopDoctorHome = (limit) => {
+  try {
+    return axios.get(`/api/top-doctor-home?limit=${limit}`);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export default {
   handleLogin,
   getAllUser,
@@ -56,4 +64,5 @@ export default {
   deleteUser,
   updateDataUser,
   getAllCodeService,
+  getTopDoctorHome,
 }

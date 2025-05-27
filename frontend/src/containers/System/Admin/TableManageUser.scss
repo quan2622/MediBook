@@ -24,39 +24,41 @@
     background-color: #04aa6d;
     color: white;
   }
-
-  .btn-edit {
-    width: 50px;
-    border: none;
-    outline: none;
-    background: #fef9f0;
-    color: #f5a524;
-    height: 28px;
-    min-height: 28px;
-    width: 28px;
-    min-width: 28px;
-    border-radius: 32px;
-
-    &:hover {
-      background: #fef9f0 !important;
+  .table_action {
+    .btn-edit {
+      width: 50px;
+      border: none;
+      outline: none;
+      background: #fef9f0;
       color: #f5a524;
-    }
-  }
-  .btn-delete {
-    width: 50px;
-    border: none;
-    outline: none;
-    background: #fef0f5;
-    color: #f31260;
-    height: 28px;
-    min-height: 28px;
-    width: 28px;
-    min-width: 28px;
-    border-radius: 32px;
+      height: 28px;
+      min-height: 28px;
+      width: 28px;
+      min-width: 28px;
+      border-radius: 32px;
+      margin-right: 10px;
 
-    &:hover {
-      background: #fef0f5 !important;
+      &:hover {
+        background: #fef9f0 !important;
+        color: #f5a524;
+      }
+    }
+    .btn-delete {
+      width: 50px;
+      border: none;
+      outline: none;
+      background: #fef0f5;
       color: #f31260;
+      height: 28px;
+      min-height: 28px;
+      width: 28px;
+      min-width: 28px;
+      border-radius: 32px;
+
+      &:hover {
+        background: #fef0f5 !important;
+        color: #f31260;
+      }
     }
   }
 }

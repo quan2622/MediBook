@@ -50,7 +50,7 @@ class UserRedux extends Component {
                 new_user: {
                     ...prevState.new_user,
                     gender:
-                        genderRedux && genderRedux.length > 0 ? genderRedux[0].key : "",
+                        genderRedux && genderRedux.length > 0 ? genderRedux[0].keyMap : "",
                 },
             }));
         }
@@ -61,9 +61,7 @@ class UserRedux extends Component {
                 new_user: {
                     ...prevState.new_user,
                     position:
-                        positionRedux && positionRedux.length > 0
-                            ? positionRedux[0].key
-                            : "",
+                        positionRedux && positionRedux.length > 0 ? positionRedux[0].keyMap : "",
                 },
             });
         }
@@ -73,7 +71,7 @@ class UserRedux extends Component {
                 role: roleRedux,
                 new_user: {
                     ...prevState.new_user,
-                    role: roleRedux && roleRedux.length > 0 ? roleRedux[0].key : "",
+                    role: roleRedux && roleRedux.length > 0 ? roleRedux[0].keyMap : "",
                 },
             });
         }
@@ -90,9 +88,9 @@ class UserRedux extends Component {
                     lastName: "",
                     phoneNumber: "",
                     address: "",
-                    position: positionRedux && positionRedux.length > 0 ? positionRedux[0].key : "",
-                    gender: genderRedux && genderRedux.length > 0 ? genderRedux[0].key : "",
-                    role: roleRedux && roleRedux.length > 0 ? roleRedux[0].key : "",
+                    position: positionRedux && positionRedux.length > 0 ? positionRedux[0].keyMap : "",
+                    gender: genderRedux && genderRedux.length > 0 ? genderRedux[0].keyMap : "",
+                    role: roleRedux && roleRedux.length > 0 ? roleRedux[0].keyMap : "",
                     avatar: null,
                 },
                 imagePreviewUrl: "",
@@ -293,7 +291,7 @@ class UserRedux extends Component {
                                 >
                                     {!_.isEmpty(gender) &&
                                         gender.map((item, index) => (
-                                            <option key={item.id} value={item.key}>
+                                            <option key={item.id} value={item.keyMap}>
                                                 {language === LANGUAGES.VI
                                                     ? item.valueVi
                                                     : item.valueEn}
@@ -315,7 +313,7 @@ class UserRedux extends Component {
                                     {position &&
                                         position.length > 0 &&
                                         position.map((item, index) => (
-                                            <option key={item.id} value={item.key}>
+                                            <option key={item.id} value={item.keyMap}>
                                                 {language === LANGUAGES.VI
                                                     ? item.valueVi
                                                     : item.valueEn}
@@ -335,7 +333,7 @@ class UserRedux extends Component {
                                     {role &&
                                         role.length > 0 &&
                                         role.map((item, index) => (
-                                            <option key={item.id} value={item.key} >
+                                            <option key={item.id} value={item.keyMap} >
                                                 {language === LANGUAGES.VI
                                                     ? item.valueVi
                                                     : item.valueEn}

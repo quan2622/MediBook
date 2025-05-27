@@ -41,7 +41,7 @@ class HomePage extends Component {
       prevArrow: <PrevArrow />,
       nextArrow: <NextArrow />,
       slidesMargin: 20,
-      dots: false
+      // dots: false
     };
     return (
       <div>
