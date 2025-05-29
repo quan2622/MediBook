@@ -1,6 +1,6 @@
 const doctorService = require("../services/doctor.service");
 
-// GET api/top-doctor-home
+// GET /api/top-doctor-home
 const getTopDoctorHome = async (req, res) => {
   let limit = +req.query.limit;
   if (!limit) limit = 10;
@@ -16,6 +16,36 @@ const getTopDoctorHome = async (req, res) => {
   }
 }
 
+// GET /api/get-all-doctor
+const getAllDoctor = async (req, res) => {
+  try {
+    const data = await doctorService.getAllDoctor();
+    return res.status(200).json(data)
+  } catch (error) {
+    console.log("Error get all doctor: ", error);
+    return res.status(200).json({
+      EC: 1,
+      EM: "Error when get all doctor!"
+    })
+  }
+}
+
+// POST /api/save-detail-doctor
+const createNewDetailDoctor = async (req, res) => {
+  try {
+    const response = await doctorService.createNewDetailDoctor(req.body);
+    return res.status(200).json(response);
+  } catch (error) {
+    console.log("Error creat detail doctor: ", error);
+    return res.status(200).json({
+      EC: 1,
+      EM: "Error when save detail doctor!"
+    })
+  }
+}
+
 module.exports = {
   getTopDoctorHome,
+  getAllDoctor,
+  createNewDetailDoctor,
 }

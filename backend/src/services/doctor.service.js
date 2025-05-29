@@ -1,3 +1,4 @@
+const { where } = require("sequelize");
 const db = require("../models");
 
 const getTopDoctorHome = (limit) => {
@@ -31,9 +32,47 @@ const getTopDoctorHome = (limit) => {
       reject(error);
     }
   })
-
 }
 
+const getAllDoctor = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const doctors = await db.User.findAll({
+        where: { roleId: "R2" },
+        attributes: { exclude: ['password', 'image'] }
+      })
+      resolve({
+        EC: 0,
+        EM: "Get all doctor success",
+        data: doctors
+      });
+    } catch (error) {
+      reject(error);
+    }
+  })
+}
+
+
+const createNewDetailDoctor = (payload) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!payload.doctorId || !payload.contentHTML || !payload.contentMarkdown)
+        resolve({ EC: 2, EM: "Missing required params" })
+
+      await db.Markdown.create({
+        contentHTML: payload.contentHTML,
+        contentMarkdown: payload.contentMarkdown,
+        description: payload.description,
+        doctorId: payload.doctorId,
+      })
+      resolve({ EC: 0, EM: " Save Detail Success" });
+    } catch (error) {
+      reject(error);
+    }
+  })
+}
 module.exports = {
   getTopDoctorHome: getTopDoctorHome,
+  getAllDoctor: getAllDoctor,
+  createNewDetailDoctor: createNewDetailDoctor,
 }
