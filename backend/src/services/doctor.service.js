@@ -71,8 +71,32 @@ const createNewDetailDoctor = (payload) => {
     }
   })
 }
+
+const getDetailDoctorById = (doctorId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const res = await db.User.findOne({
+        where: { id: doctorId },
+        attributes: {
+          exclude: ['image', 'password'],
+        },
+        include: [
+          { model: db.Markdown, as: 'markdown_data', attributes: ["description", "contentMarkdown", "contentHTML"] },
+          { model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
+        ],
+        raw: true,
+        nest: true,
+      });
+      if (!res) resolve({ EC: 3, EM: "Cannot find doctor" });
+      resolve({ EC: 0, EM: "Get detail success", detail: res });
+    } catch (error) {
+      reject(error);
+    }
+  })
+}
 module.exports = {
   getTopDoctorHome: getTopDoctorHome,
   getAllDoctor: getAllDoctor,
   createNewDetailDoctor: createNewDetailDoctor,
+  getDetailDoctorById: getDetailDoctorById
 }

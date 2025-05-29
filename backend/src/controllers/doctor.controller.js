@@ -36,7 +36,7 @@ const createNewDetailDoctor = async (req, res) => {
     const response = await doctorService.createNewDetailDoctor(req.body);
     return res.status(200).json(response);
   } catch (error) {
-    console.log("Error creat detail doctor: ", error);
+    console.log("Error create detail doctor: ", error);
     return res.status(200).json({
       EC: 1,
       EM: "Error when save detail doctor!"
@@ -44,8 +44,23 @@ const createNewDetailDoctor = async (req, res) => {
   }
 }
 
+// GET /api/get-detail-doctor
+const getDetailDoctor = async (req, res) => {
+  try {
+    if (!req.query.id) return res.status(400).json({ EC: 2, EM: "Missing doctorId!" });
+    const response = await doctorService.getDetailDoctorById(req.query.id);
+    return res.status(200).json(response);
+  } catch (error) {
+    console.log("Error get detail doctor: ", error);
+    return res.status(200).json({
+      EC: 1,
+      EM: "Error when get detail doctor!"
+    })
+  }
+}
 module.exports = {
   getTopDoctorHome,
   getAllDoctor,
   createNewDetailDoctor,
+  getDetailDoctor,
 }
