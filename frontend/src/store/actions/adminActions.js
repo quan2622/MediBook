@@ -182,6 +182,7 @@ export const editUser = (data) => {
   }
 }
 
+// Top doctors
 export const editUserSuccess = () => ({
   type: actionTypes.EDIT_USER_SUCCESS,
 })
@@ -204,6 +205,46 @@ export const fetchTopDoctor = () => {
       toast.error("Had error fetch top doctor");
       console.log("Error fetchTopDoctor: ", error);
       dispatch({ type: actionTypes.FETCH_TOP_DOCTOR_FAILED });
+    }
+  }
+}
+
+
+//  Detail doctor
+export const getAllDoctor = () => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await userService.getAllDoctor();
+      if (res && res.EC === 0) {
+        dispatch({ type: actionTypes.GET_ALL_DOCTOR_SUCCESS, payload: res.data });
+      } else {
+        toast.error("Had error when get all doctor");
+        dispatch({ type: actionTypes.GET_ALL_DOCTOR_FAILED });
+      }
+    } catch (error) {
+      toast.error("Had get all doctor");
+      console.log("Error getAllDoctor: ", error);
+      dispatch({ type: actionTypes.GET_ALL_DOCTOR_FAILED });
+    }
+  }
+}
+
+// Save detail
+export const saveDetailDoctor = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await userService.saveDetaiDatalDoctor(data);
+      if (res && res.EC === 0) {
+        toast.success(res.EM);
+        dispatch({ type: actionTypes.SAVE_DETAIL_DOCTOR_SUCCESS, payload: res.data });
+      } else {
+        toast.error("Had error when save detail");
+        dispatch({ type: actionTypes.SAVE_DETAIL_DOCTOR_FAILED });
+      }
+    } catch (error) {
+      toast.error("Save detail failed");
+      console.log("Error saveDetailDoctor: ", error);
+      dispatch({ type: actionTypes.SAVE_DETAIL_DOCTOR_FAILED });
     }
   }
 }

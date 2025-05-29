@@ -57,7 +57,23 @@ const getTopDoctorHome = (limit) => {
   }
 }
 
-export default {
+const getAllDoctor = () => {
+  try {
+    return axios.get("/api/get-all-doctor");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const saveDetaiDatalDoctor = (data) => {
+  try {
+    return axios.post("/api/save-detail-doctor", data);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const userService = {
   handleLogin,
   getAllUser,
   createNewUser,
@@ -65,4 +81,8 @@ export default {
   updateDataUser,
   getAllCodeService,
   getTopDoctorHome,
-}
+  getAllDoctor,
+  saveDetaiDatalDoctor,
+};
+
+export default userService;

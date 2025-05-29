@@ -8,6 +8,7 @@ const initialState = {
   users: [],
   isLoadingGender: false,
   topDoctors: [],
+  doctorList: [],
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -85,6 +86,12 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
         topDoctors: []
+      }
+
+    case actionTypes.GET_ALL_DOCTOR_SUCCESS:
+      return {
+        ...state,
+        doctorList: action.payload
       }
 
     default:
