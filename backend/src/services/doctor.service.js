@@ -78,16 +78,19 @@ const getDetailDoctorById = (doctorId) => {
       const res = await db.User.findOne({
         where: { id: doctorId },
         attributes: {
-          exclude: ['image', 'password'],
+          exclude: ['password'],
         },
         include: [
           { model: db.Markdown, as: 'markdown_data', attributes: ["description", "contentMarkdown", "contentHTML"] },
           { model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
         ],
-        raw: true,
+        raw: false,
         nest: true,
       });
       if (!res) resolve({ EC: 3, EM: "Cannot find doctor" });
+      if (res.image) {
+        res.image = Buffer.from(res.image, 'base64').toString('binary');
+      }
       resolve({ EC: 0, EM: "Get detail success", detail: res });
     } catch (error) {
       reject(error);

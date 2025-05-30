@@ -44,7 +44,7 @@ const createNewDetailDoctor = async (req, res) => {
   }
 }
 
-// GET /api/get-detail-doctor
+// GET /api/get-detail-doctor?id="doctorId"
 const getDetailDoctor = async (req, res) => {
   try {
     if (!req.query.id) return res.status(400).json({ EC: 2, EM: "Missing doctorId!" });
