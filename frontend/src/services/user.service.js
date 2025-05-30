@@ -73,6 +73,14 @@ const saveDetaiDatalDoctor = (data) => {
   }
 }
 
+const getDetailDataDoctor = (doctorId) => {
+  try {
+    return axios.get(`/api/get-detail-doctor?id=${doctorId}`)
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 const userService = {
   handleLogin,
   getAllUser,
@@ -83,6 +91,7 @@ const userService = {
   getTopDoctorHome,
   getAllDoctor,
   saveDetaiDatalDoctor,
+  getDetailDataDoctor,
 };
 
 export default userService;

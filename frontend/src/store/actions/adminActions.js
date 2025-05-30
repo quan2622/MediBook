@@ -248,3 +248,21 @@ export const saveDetailDoctor = (data) => {
     }
   }
 }
+
+// Get detail doctor
+export const getDetailDoctor = (doctorId) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await userService.getDetailDataDoctor(doctorId);
+      if (!res && !res.detail) {
+        toast.error("Cannot get detail doctor");
+        dispatch({ type: actionTypes.GET_DETAIL_DOCTOR_FAILED });
+      }
+      dispatch({ type: actionTypes.GET_DETAIL_DOCTOR_SUCCESS, payload: res.detail })
+    } catch (error) {
+      toast.error("Get detail failed");
+      console.log("Error getDetailDoctor: ", error);
+      dispatch({ type: actionTypes.GET_DETAIL_DOCTOR_FAILED });
+    }
+  }
+}
