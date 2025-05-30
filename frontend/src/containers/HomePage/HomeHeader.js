@@ -64,68 +64,70 @@ class HomeHeader extends Component {
             </div>
           </div>
         </div >
-        <div className="home-header-banner">
-          <div className="content-top">
-            <div className="title1"><FormattedMessage id="banner.title1" /></div>
-            <div className="title2"><FormattedMessage id="banner.title2" /></div>
-            <div className="search">
-              <i className="fas fa-search"></i>
-              <input type="text" placeholder="Tìm chuyên khoa khám bệnh" />
-            </div>
-          </div>
-          <div className="content-bottom">
-            <div className="option">
-              <div className="option-child">
-                <div className="icon-child">
-                  <img src="/Banner/khamchuyenkhoa.png" alt="KhamChuyenKhoa" />
-                </div>
-                <div className="text-child">
-                  <FormattedMessage id="banner.child1" />
-                </div>
-              </div>
-              <div className="option-child">
-                <div className="icon-child">
-                  <img src="/Banner/kham-tu-xa.png" alt="KhamChuyenKhoa" />
-                </div>
-                <div className="text-child">
-                  <FormattedMessage id="banner.child2" />
-                </div>
-              </div>
-              <div className="option-child">
-                <div className="icon-child">
-                  <img src="/Banner/kham-tong-quan.png" alt="KhamChuyenKhoa" />
-                </div>
-                <div className="text-child">
-                  <FormattedMessage id="banner.child3" />
-                </div>
-              </div>
-              <div className="option-child">
-                <div className="icon-child">
-                  <img src="/Banner/xet-nghiem-y-hoc.png" alt="KhamChuyenKhoa" />
-                </div>
-                <div className="text-child">
-                  <FormattedMessage id="banner.child4" />
-                </div>
-              </div>
-              <div className="option-child">
-                <div className="icon-child">
-                  <img src="/Banner/suc-khoe-tinh-than.png" alt="KhamChuyenKhoa" />
-                </div>
-                <div className="text-child">
-                  <FormattedMessage id="banner.child5" />
-                </div>
-              </div>
-              <div className="option-child">
-                <div className="icon-child">
-                  <img src="/Banner/kham-nha-khoa.png" alt="KhamChuyenKhoa" />
-                </div>
-                <div className="text-child">
-                  <FormattedMessage id="banner.child6" />
-                </div>
+        {this.props.isShowBanner &&
+          <div className="home-header-banner">
+            <div className="content-top">
+              <div className="title1"><FormattedMessage id="banner.title1" /></div>
+              <div className="title2"><FormattedMessage id="banner.title2" /></div>
+              <div className="search">
+                <i className="fas fa-search"></i>
+                <input type="text" placeholder="Tìm chuyên khoa khám bệnh" />
               </div>
             </div>
+            <div className="content-bottom">
+              <div className="option">
+                <div className="option-child">
+                  <div className="icon-child">
+                    <img src="/Banner/khamchuyenkhoa.png" alt="KhamChuyenKhoa" />
+                  </div>
+                  <div className="text-child">
+                    <FormattedMessage id="banner.child1" />
+                  </div>
+                </div>
+                <div className="option-child">
+                  <div className="icon-child">
+                    <img src="/Banner/kham-tu-xa.png" alt="KhamChuyenKhoa" />
+                  </div>
+                  <div className="text-child">
+                    <FormattedMessage id="banner.child2" />
+                  </div>
+                </div>
+                <div className="option-child">
+                  <div className="icon-child">
+                    <img src="/Banner/kham-tong-quan.png" alt="KhamChuyenKhoa" />
+                  </div>
+                  <div className="text-child">
+                    <FormattedMessage id="banner.child3" />
+                  </div>
+                </div>
+                <div className="option-child">
+                  <div className="icon-child">
+                    <img src="/Banner/xet-nghiem-y-hoc.png" alt="KhamChuyenKhoa" />
+                  </div>
+                  <div className="text-child">
+                    <FormattedMessage id="banner.child4" />
+                  </div>
+                </div>
+                <div className="option-child">
+                  <div className="icon-child">
+                    <img src="/Banner/suc-khoe-tinh-than.png" alt="KhamChuyenKhoa" />
+                  </div>
+                  <div className="text-child">
+                    <FormattedMessage id="banner.child5" />
+                  </div>
+                </div>
+                <div className="option-child">
+                  <div className="icon-child">
+                    <img src="/Banner/kham-nha-khoa.png" alt="KhamChuyenKhoa" />
+                  </div>
+                  <div className="text-child">
+                    <FormattedMessage id="banner.child6" />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        }
       </>
     );
   }
