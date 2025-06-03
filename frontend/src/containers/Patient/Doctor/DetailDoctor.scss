@@ -1,10 +1,9 @@
 .doctor-detail-container {
   min-height: 300px;
-  border: 1px solid red;
-  margin: 0 100px;
   .intro-doctor {
     display: flex;
     padding: 20px 0;
+    margin: 0 100px;
     .content-left {
       width: 120px;
       height: 120px;
@@ -42,8 +41,21 @@
   .schedule-doctor {
   }
   .detail-info-doctor {
-    padding: 30px 20px;
+    background-color: #f9f9f9;
+    padding: 30px 120px;
     border-top: 1px solid #85a6b4;
+    img {
+      width: 80%;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 12px;
+      // box-shadow: 1px 1px 20px #85a6b4;
+      transition: all 0.5s ease;
+
+      &:hover {
+        box-shadow: 1px 1px 20px #89c2da;
+      }
+    }
   }
   .comment-doctor {
   }

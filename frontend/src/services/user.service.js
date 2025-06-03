@@ -73,9 +73,9 @@ const saveDetaiDatalDoctor = (data) => {
   }
 }
 
-const getDetailDataDoctor = (doctorId) => {
+const getDetailDataDoctor = (doctorId, hasMarkdown = false) => {
   try {
-    return axios.get(`/api/get-detail-doctor?id=${doctorId}`)
+    return axios.get(`/api/get-detail-doctor?id=${doctorId}&markdown=${hasMarkdown}`)
   } catch (error) {
     console.log(error);
   }

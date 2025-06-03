@@ -5,11 +5,18 @@ import logo from "../../assets/images/logo.svg"
 import { FormattedMessage } from "react-intl";
 import * as actions from "../../store/actions"
 import { LANGUAGES } from "../../utils";
+import { withRouter } from "react-router-dom"
 class HomeHeader extends Component {
 
 
   handleChangeLanguage = (language) => {
     this.props.changeLangue(language);
+  }
+
+  returnHome = () => {
+    if (this.props.history) {
+      this.props.history.push("/home");
+    }
   }
 
   render() {
@@ -21,7 +28,7 @@ class HomeHeader extends Component {
             <div className="left-content">
               <i className="fas fa-bars"></i>
               <div className="header-logo">
-                <img src={logo} alt="LogoApp" />
+                <img src={logo} alt="LogoApp" onClick={() => this.returnHome()} />
               </div>
             </div>
             <div className="center-content">
@@ -147,4 +154,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeHeader);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomeHeader));

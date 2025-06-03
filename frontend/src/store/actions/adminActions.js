@@ -250,10 +250,10 @@ export const saveDetailDoctor = (data) => {
 }
 
 // Get detail doctor
-export const getDetailDoctor = (doctorId) => {
+export const getDetailDoctor = (doctorId, hasMarkdown = false) => {
   return async (dispatch, getState) => {
     try {
-      const res = await userService.getDetailDataDoctor(doctorId);
+      const res = await userService.getDetailDataDoctor(doctorId, hasMarkdown);
       if (!res && !res.detail) {
         toast.error("Cannot get detail doctor");
         dispatch({ type: actionTypes.GET_DETAIL_DOCTOR_FAILED });
