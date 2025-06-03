@@ -44,11 +44,16 @@ const createNewDetailDoctor = async (req, res) => {
   }
 }
 
-// GET /api/get-detail-doctor?id="doctorId"
+// GET /api/get-detail-doctor?id="doctorId"&markdown=hasMarkdown
 const getDetailDoctor = async (req, res) => {
   try {
     if (!req.query.id) return res.status(400).json({ EC: 2, EM: "Missing doctorId!" });
-    const response = await doctorService.getDetailDoctorById(req.query.id);
+    let response = null;
+    if (req.query.markdown === 'true') {
+      response = await doctorService.getMarkDownDoctor(req.query.id);
+    } else {
+      response = await doctorService.getDetailDoctorById(req.query.id);
+    }
     return res.status(200).json(response);
   } catch (error) {
     console.log("Error get detail doctor: ", error);
@@ -58,6 +63,7 @@ const getDetailDoctor = async (req, res) => {
     })
   }
 }
+
 module.exports = {
   getTopDoctorHome,
   getAllDoctor,

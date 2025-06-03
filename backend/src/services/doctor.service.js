@@ -56,15 +56,27 @@ const getAllDoctor = () => {
 const createNewDetailDoctor = (payload) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (!payload.doctorId || !payload.contentHTML || !payload.contentMarkdown)
+      if (!payload.doctorId || !payload.contentHTML || !payload.contentMarkdown || !payload.action)
         resolve({ EC: 2, EM: "Missing required params" })
 
-      await db.Markdown.create({
-        contentHTML: payload.contentHTML,
-        contentMarkdown: payload.contentMarkdown,
-        description: payload.description,
-        doctorId: payload.doctorId,
-      })
+      if (payload.action === "CREATE") {
+        await db.Markdown.create({
+          contentHTML: payload.contentHTML,
+          contentMarkdown: payload.contentMarkdown,
+          description: payload.description,
+          doctorId: payload.doctorId,
+        })
+      } else if (payload.action === "EDIT") {
+        const res = await db.Markdown.update(
+          {
+            contentHTML: payload.contentHTML,
+            contentMarkdown: payload.contentMarkdown,
+            description: payload.description,
+          },
+          { where: { doctorId: payload.doctorId } }
+        )
+        if (res[0] === 0) resolve({ EC: 3, EM: "Markdown doctor not found" })
+      }
       resolve({ EC: 0, EM: " Save Detail Success" });
     } catch (error) {
       reject(error);
@@ -97,9 +109,25 @@ const getDetailDoctorById = (doctorId) => {
     }
   })
 }
+
+const getMarkDownDoctor = (doctorId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const res = await db.Markdown.findOne({
+        where: { doctorId: doctorId },
+        attributes: ['contentHTML', 'contentMarkdown', 'description']
+      });
+      if (!res) resolve({ EC: 3, EM: "Cannot find doctor", detail: {} });
+      resolve({ EC: 0, EM: "Get markdown doctor success", detail: res });
+    } catch (error) {
+      reject(error);
+    }
+  })
+}
 module.exports = {
   getTopDoctorHome: getTopDoctorHome,
   getAllDoctor: getAllDoctor,
   createNewDetailDoctor: createNewDetailDoctor,
-  getDetailDoctorById: getDetailDoctorById
+  getDetailDoctorById: getDetailDoctorById,
+  getMarkDownDoctor: getMarkDownDoctor,
 }
