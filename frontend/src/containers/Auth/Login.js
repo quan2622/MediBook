@@ -30,6 +30,11 @@ class Login extends Component {
       })
   }
 
+  handleEnter = (e) => {
+    if (e.key === "Enter" || e.keyCode === 13)
+      this.handleLogin();
+  }
+
   handleLogin = async () => {
     this.setState({ EM: '' });
     try {
@@ -66,7 +71,8 @@ class Login extends Component {
               <div className="show-hide-password">
                 <input type={this.state.isShowPassword ? "text" : "password"}
                   className="form-control" placeholder="Enter your password"
-                  value={this.state.passWord} onChange={(e) => this.handleOnChangeInput(e, "PW")} />
+                  value={this.state.passWord} onChange={(e) => this.handleOnChangeInput(e, "PW")}
+                  onKeyDown={this.handleEnter} />
                 <span onClick={() => this.setState({ isShowPassword: !this.state.isShowPassword })}>
                   <i className={this.state.isShowPassword ? "far fa-eye" : "far fa-eye-slash"}></i>
                 </span>

@@ -266,3 +266,18 @@ export const getDetailDoctor = (doctorId, hasMarkdown = false) => {
     }
   }
 }
+
+// DOCTOR SCHEDULE
+export const fetchAllScheduleHours = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await userService.getAllCodeService("TIME");
+      if (res && res.EC === 0) {
+        dispatch({ type: actionTypes.FETCH_ALL_SCHEDULE_TIME_SUCCESS, payload: res.data });
+      } else dispatch({ type: actionTypes.FETCH_ALL_SCHEDULE_TIME_FAILED });
+    } catch (error) {
+      dispatch({ type: actionTypes.FETCH_ALL_SCHEDULE_TIME_FAILED });
+      console.log("fetchPositionStart", error);
+    }
+  }
+}
