@@ -281,3 +281,18 @@ export const fetchAllScheduleHours = () => {
     }
   }
 }
+
+export const saveScheduleDoctor = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await userService.saveScheduleDoctor(data);
+      console.log("Check response: ", res);
+      if (res && res.EC === 0) {
+        dispatch({ type: actionTypes.SAVE_SCHEDULE_DOCTOR_SUCCESS });
+      } else dispatch({ type: actionTypes.SAVE_SCHEDULE_DOCTOR_FAILED });
+    } catch (error) {
+      dispatch({ type: actionTypes.SAVE_SCHEDULE_DOCTOR_FAILED });
+      console.log("saveScheduleDoctor", error);
+    }
+  }
+}

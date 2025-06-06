@@ -81,6 +81,13 @@ const getDetailDataDoctor = (doctorId, hasMarkdown = false) => {
   }
 }
 
+const saveScheduleDoctor = (data) => {
+  try {
+    return axios.post('/api/bulk-create-schedule', { data: data })
+  } catch (error) {
+    console.log(error)
+  }
+}
 const userService = {
   handleLogin,
   getAllUser,
@@ -92,6 +99,7 @@ const userService = {
   getAllDoctor,
   saveDetaiDatalDoctor,
   getDetailDataDoctor,
+  saveScheduleDoctor,
 };
 
 export default userService;

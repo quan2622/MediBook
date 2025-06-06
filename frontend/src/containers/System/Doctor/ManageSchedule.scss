@@ -15,6 +15,9 @@
     .btn-schedule {
       border: 1px solid #adadad;
       padding: 5px 15px;
+      &.isSelected {
+        background-color: #f6a524;
+      }
     }
   }
 }
