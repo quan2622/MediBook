@@ -57,9 +57,24 @@ const getDetailDoctor = async (req, res) => {
     return res.status(200).json(response);
   } catch (error) {
     console.log("Error get detail doctor: ", error);
-    return res.status(200).json({
+    return res.status(500).json({
       EC: 1,
       EM: "Error when get detail doctor!"
+    })
+  }
+}
+
+
+// POST /api/bulk-create-schedule
+const bulkCreateSchedule = async (req, res) => {
+  try {
+    const data = await doctorService.bulkCreateSchedule(req.body);
+    return res.status(200).json(data);
+  } catch (error) {
+    console.log("Error create schedule: ", error);
+    return res.status(500).json({
+      EC: 1,
+      EM: "Error create schedule!"
     })
   }
 }
@@ -69,4 +84,5 @@ module.exports = {
   getAllDoctor,
   createNewDetailDoctor,
   getDetailDoctor,
+  bulkCreateSchedule,
 }

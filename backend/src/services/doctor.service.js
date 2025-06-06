@@ -1,5 +1,9 @@
 const { where } = require("sequelize");
 const db = require("../models");
+import _ from 'lodash'
+require('dotenv').config();
+
+const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE;
 
 const getTopDoctorHome = (limit) => {
   return new Promise(async (resolve, reject) => {
@@ -124,10 +128,49 @@ const getMarkDownDoctor = (doctorId) => {
     }
   })
 }
+
+const bulkCreateSchedule = (payload) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!payload && !payload.data) resolve({ EC: 1, EM: "Missing required params" });
+      else {
+        let scheduleData = payload.data;
+        scheduleData = scheduleData.map(item => ({
+          ...item,
+          maxNumber: MAX_NUMBER_SCHEDULE,
+        }));
+
+        // get existing schedule
+        const { doctorId, date } = scheduleData[0];
+        let existSchedule = await db.Schedule.findAll({
+          where: { doctorId: doctorId, date: date },
+          attributes: ['maxNumber', 'date', 'timeType', 'doctorId']
+        });
+        if (existSchedule && existSchedule.length > 0) {
+          existSchedule = existSchedule.map(item => ({ ...item, date: new Date(item.date).getTime() }));
+        }
+
+        // compare schedule
+        const diffSchedule = _.differenceWith(scheduleData, existSchedule, (a, b) => {
+          return a.timeType === b.timeType && a.date === b.date;
+        })
+        if (diffSchedule && diffSchedule.length > 0) {
+          await db.Schedule.bulkCreate(diffSchedule);
+          resolve({ EC: 0, EM: "Save schedule success" });
+        }
+        resolve({ EC: 0, EM: "Cannot save more schedule!" });
+      }
+    } catch (error) {
+      reject(error);
+    }
+  })
+}
+
 module.exports = {
   getTopDoctorHome: getTopDoctorHome,
   getAllDoctor: getAllDoctor,
   createNewDetailDoctor: createNewDetailDoctor,
   getDetailDoctorById: getDetailDoctorById,
   getMarkDownDoctor: getMarkDownDoctor,
+  bulkCreateSchedule: bulkCreateSchedule,
 }
