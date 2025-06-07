@@ -26,7 +26,7 @@
   .all-time-available {
     .text-calender {
       color: #333;
-      margin: 10px 0;
+      margin: 14px 0;
       i {
         margin-right: 5px;
       }
@@ -37,25 +37,40 @@
       }
     }
     .time-content {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      .box-time {
+      .box-schedule {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 10px 14px;
-        background-color: #fff04b;
-        border: 1px solid #fff04b;
-        width: 164px;
-        border-radius: 6px;
-        font-weight: 600;
-        color: #333;
-        transition: all 0.2s ease;
+        gap: 12px;
+        flex-wrap: wrap;
+        .box-time {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 10px 14px;
+          background-color: #fff04b;
+          border: 1px solid #fff04b;
+          width: 164px;
+          border-radius: 6px;
+          font-weight: 600;
+          color: #333;
+          transition: all 0.2s ease;
 
-        &:hover {
-          border: 1px solid #45c3d2;
-          box-shadow: 1px 1px 10px #4fe6f7;
+          &:hover {
+            border: 1px solid #45c3d2;
+            box-shadow: 1px 1px 10px #4fe6f7;
+          }
+        }
+
+        .no-schedule {
+          font-style: italic;
+        }
+      }
+      .note-schedule {
+        padding: 14px 0 0;
+        font-size: 14px;
+        color: #3a6081e6;
+        i {
+          color: #333;
+          font-size: 22px;
         }
       }
     }

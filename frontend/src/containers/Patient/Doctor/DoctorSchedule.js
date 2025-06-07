@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import HomeHeader from "../../HomePage/HomeHeader";
 import "./DoctorSchedule.scss"
 import * as actions from "../../../store/actions"
 import { LANGUAGES } from "../../../utils";
 import Select from 'react-select'
 import moment from 'moment'
-import localization from 'moment/locale/vi'
 import _ from "lodash";
+import { FormattedMessage } from "react-intl";
+
 
 const select_style = {
   container: (provided) => ({
@@ -43,37 +43,34 @@ class DoctorSchedule extends Component {
   buildSelectOptions = () => {
     const { language } = this.props;
     const { selectedOption, allDays } = this.state;
-    let arrDay = [];
-    for (let i = 0; i < 7; i++) {
-      const date = moment(new Date()).add(i, 'days');
-      let label = '';
 
-      if (language === LANGUAGES.VI) {
-        const raw = date.format('dddd - DD/MM');
-        if (i === 0) {
-          const index = raw.indexOf('-');
-          label = ['Hôm nay', raw.substring(index + 1)].join(' - ');
-        } else label = raw[0].toUpperCase() + raw.slice(1);
-      } else {
-        const raw = date.locale('en').format('ddd - DD/MM');
-        if (i === 0) {
-          const index = raw.indexOf('-');
-          label = ['Today', raw.substring(index + 1)].join(' - ');
-        } else label = raw;
+    const arrDay = Array.from({ length: 7 }, (_, i) => {
+      const date = moment().add(i, 'days');
+      return {
+        label: this.buildLabel(date, i === 0, language === LANGUAGES.VI),
+        value: date.startOf('day').valueOf()
       }
-
-      arrDay.push(({
-        label: label,
-        value: moment(new Date()).add(i, 'days').startOf('day').valueOf(),
-      }));
-    }
+    })
 
     let indexSelect = 0;
-    if (allDays.length > 0 && selectedOption !== null) {
+    if (allDays.length > 0 && selectedOption) {
       indexSelect = allDays.findIndex(item => _.isEqual(item, selectedOption));
     }
     this.setState({ allDays: arrDay, selectedOption: arrDay[indexSelect] });
     this.handleOnchangeSelect(arrDay[indexSelect]);
+  }
+
+  buildLabel = (date, isToday, isVi) => {
+    if (isVi) {
+      const raw = date.format('dddd - DD/MM');
+      if (isToday) {
+        const index = raw.indexOf('-');
+        return `Hôm nay - ${raw.slice(index + 2)}`
+      }
+      return raw.charAt(0).toUpperCase() + raw.slice(1);
+    }
+    const raw = date.locale('en').format('ddd - DD/MM');
+    return isToday ? `Today - ${raw.split(' - ')[1]}` : raw;
   }
 
   handleOnchangeSelect = (select) => {
@@ -101,20 +98,37 @@ class DoctorSchedule extends Component {
         </div>
         <div className="all-time-available">
           <div className="text-calender">
-            <span><i className="far fa-calendar-alt"></i> Lịch khám  </span>
+            <span>
+              <i className="far fa-calendar-alt"></i>
+              <FormattedMessage id="patient.detail-doctor.schedule" />
+            </span>
           </div>
           <div className="time-content">
             {scheduleDoctor && scheduleDoctor.length > 0 ?
-              scheduleDoctor.map(item => {
-                const { scheduleData } = item
-                const date = language === LANGUAGES.VI ? scheduleData.valueVi : scheduleData.valueEn;
-                return (
-                  <span className="box-time" key={item.id}>{date}</span>
-                )
-              })
+              <>
+                <div className="box-schedule">
+                  {
+                    scheduleDoctor.map(item => {
+                      const { scheduleData } = item
+                      const date = language === LANGUAGES.VI ? scheduleData.valueVi : scheduleData.valueEn;
+                      return (
+                        <span className="box-time" key={item.id}>{date}</span>
+                      )
+                    })
+                  }
+                </div>
+                <div className="note-schedule">
+                  <span>
+                    <FormattedMessage id="patient.detail-doctor.choose" />
+                    <i class="far fa-hand-point-up"></i>
+                    <FormattedMessage id="patient.detail-doctor.book-free" />
+
+                  </span>
+                </div>
+              </>
               :
-              <div className="">
-                Không có lịch hẹn trong ngày, vui lòng chọn thời gian khác!
+              <div className="no-schedule">
+                <FormattedMessage id="patient.detail-doctor.no-schedule" />
               </div>
             }
           </div>
