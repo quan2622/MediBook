@@ -146,13 +146,10 @@ const bulkCreateSchedule = (payload) => {
           where: { doctorId: doctorId, date: date },
           attributes: ['maxNumber', 'date', 'timeType', 'doctorId']
         });
-        if (existSchedule && existSchedule.length > 0) {
-          existSchedule = existSchedule.map(item => ({ ...item, date: +item.date }));
-        }
 
         // compare schedule
         const diffSchedule = _.differenceWith(scheduleData, existSchedule, (a, b) => {
-          return a.timeType === b.timeType && a.date === b.date;
+          return a.timeType === b.timeType && +a.date === +b.date;
         })
         if (diffSchedule && diffSchedule.length > 0) {
           await db.Schedule.bulkCreate(diffSchedule);
@@ -173,6 +170,11 @@ const getScheduleDoctor = (doctorId, day) => {
       else {
         let data = await db.Schedule.findAll({
           where: { doctorId: doctorId, date: day },
+          include: [
+            { model: db.Allcode, as: 'scheduleData', attributes: ['valueEn', 'valueVi'] },
+          ],
+          raw: true,
+          nest: true,
         });
         if (!data) data = [];
         resolve({ EC: 0, data: data });
