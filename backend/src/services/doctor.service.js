@@ -147,7 +147,7 @@ const bulkCreateSchedule = (payload) => {
           attributes: ['maxNumber', 'date', 'timeType', 'doctorId']
         });
         if (existSchedule && existSchedule.length > 0) {
-          existSchedule = existSchedule.map(item => ({ ...item, date: new Date(item.date).getTime() }));
+          existSchedule = existSchedule.map(item => ({ ...item, date: +item.date }));
         }
 
         // compare schedule
@@ -166,6 +166,24 @@ const bulkCreateSchedule = (payload) => {
   })
 }
 
+const getScheduleDoctor = (doctorId, day) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!day && !doctorId) resolve({ EC: 1, EM: "Missing required params" });
+      else {
+        let data = await db.Schedule.findAll({
+          where: { doctorId: doctorId, date: day },
+        });
+        if (!data) data = [];
+        resolve({ EC: 0, data: data });
+      }
+    } catch (error) {
+      reject(error);
+    }
+  })
+
+}
+
 module.exports = {
   getTopDoctorHome: getTopDoctorHome,
   getAllDoctor: getAllDoctor,
@@ -173,4 +191,5 @@ module.exports = {
   getDetailDoctorById: getDetailDoctorById,
   getMarkDownDoctor: getMarkDownDoctor,
   bulkCreateSchedule: bulkCreateSchedule,
+  getScheduleDoctor: getScheduleDoctor,
 }

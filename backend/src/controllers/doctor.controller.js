@@ -79,10 +79,25 @@ const bulkCreateSchedule = async (req, res) => {
   }
 }
 
+// GET /api/get-schedule-doctor?doctorId=doctorId & day=day
+const getScheduleDoctor = async (req, res) => {
+  try {
+    const data = await doctorService.getScheduleDoctor(req.query.doctorId, req.query.day);
+    return res.status(200).json(data);
+  } catch (error) {
+    console.log("Error get schedule: ", error);
+    return res.status(500).json({
+      EC: 1,
+      EM: "Error get schedule!"
+    })
+  }
+}
+
 module.exports = {
   getTopDoctorHome,
   getAllDoctor,
   createNewDetailDoctor,
   getDetailDoctor,
   bulkCreateSchedule,
+  getScheduleDoctor
 }
