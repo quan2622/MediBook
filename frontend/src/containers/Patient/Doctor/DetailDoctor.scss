@@ -39,15 +39,15 @@
     }
   }
   .schedule-doctor {
-    margin: 0 100px;
+    margin: 12px 100px 0;
     display: flex;
-    height: 200px;
-    border: 1px solid red;
+    height: 220px;
     .content-left {
-      width: 50%;
+      width: 60%;
+      padding: 16px 0;
     }
     .content-right {
-      width: 50%;
+      width: 40%;
     }
   }
   .detail-info-doctor {
