@@ -11,6 +11,7 @@ const initialState = {
   doctorList: [],
   detailDoctor: {},
   schedule: [],
+  scheduleDoctor: [],
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -111,6 +112,16 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
         schedule: []
+      }
+    case actionTypes.FETCH_SCHEDULE_DOCTOR_SUCCESS:
+      return {
+        ...state,
+        scheduleDoctor: action.payload
+      }
+    case actionTypes.FETCH_SCHEDULE_DOCTOR_FAILED:
+      return {
+        ...state,
+        scheduleDoctor: []
       }
 
     default:

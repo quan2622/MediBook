@@ -4,6 +4,7 @@ import HomeHeader from "../../HomePage/HomeHeader";
 import "./DetailDoctor.scss"
 import * as actions from "../../../store/actions"
 import { LANGUAGES } from "../../../utils";
+import DoctorSchedule from "./DoctorSchedule";
 
 class DetailDoctor extends Component {
   constructor(props) {
@@ -32,6 +33,7 @@ class DetailDoctor extends Component {
     if (!dataDetailDoctor || !dataDetailDoctor.markdown_data) return <div style={{ padding: '20px', fontSize: "18px", color: "grey" }}>Loading...</div>;
     let nameVi = `${dataDetailDoctor.positionData.valueVi}, ${dataDetailDoctor.lastName} ${dataDetailDoctor.firstName}`;
     let nameEn = `${dataDetailDoctor.positionData.valueEn}, ${dataDetailDoctor.firstName} ${dataDetailDoctor.lastName}`;
+
     return (
       <>
         <HomeHeader isShowBanner={false} />
@@ -44,7 +46,12 @@ class DetailDoctor extends Component {
             </div>
           </div>
           <div className="schedule-doctor">
+            <div className="content-left">
+              <DoctorSchedule doctorId={dataDetailDoctor && dataDetailDoctor.id ? dataDetailDoctor.id : -1} />
+            </div>
+            <div className="content-right">
 
+            </div>
           </div>
           <div className="detail-info-doctor" dangerouslySetInnerHTML={{ __html: dataDetailDoctor.markdown_data.contentHTML }}>
           </div>

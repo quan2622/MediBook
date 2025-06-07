@@ -274,7 +274,10 @@ export const fetchAllScheduleHours = () => {
       let res = await userService.getAllCodeService("TIME");
       if (res && res.EC === 0) {
         dispatch({ type: actionTypes.FETCH_ALL_SCHEDULE_TIME_SUCCESS, payload: res.data });
-      } else dispatch({ type: actionTypes.FETCH_ALL_SCHEDULE_TIME_FAILED });
+      } else {
+        toast.error(res.EM);
+        dispatch({ type: actionTypes.FETCH_ALL_SCHEDULE_TIME_FAILED });
+      }
     } catch (error) {
       dispatch({ type: actionTypes.FETCH_ALL_SCHEDULE_TIME_FAILED });
       console.log("fetchPositionStart", error);
@@ -286,13 +289,33 @@ export const saveScheduleDoctor = (data) => {
   return async (dispatch, getState) => {
     try {
       let res = await userService.saveScheduleDoctor(data);
-      console.log("Check response: ", res);
       if (res && res.EC === 0) {
+        toast.success(res.EM)
         dispatch({ type: actionTypes.SAVE_SCHEDULE_DOCTOR_SUCCESS });
-      } else dispatch({ type: actionTypes.SAVE_SCHEDULE_DOCTOR_FAILED });
+      } else {
+        toast.error(res.EM);
+        dispatch({ type: actionTypes.SAVE_SCHEDULE_DOCTOR_FAILED })
+      };
     } catch (error) {
       dispatch({ type: actionTypes.SAVE_SCHEDULE_DOCTOR_FAILED });
       console.log("saveScheduleDoctor", error);
+    }
+  }
+}
+
+export const fetchScheduleDoctor = (doctorId, day) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await userService.fetchScheduleDoctor(doctorId, day);
+      if (res && res.EC === 0) {
+        dispatch({ type: actionTypes.FETCH_SCHEDULE_DOCTOR_SUCCESS, payload: res.data });
+      } else {
+        toast.error(res.EM);
+        dispatch({ type: actionTypes.FETCH_SCHEDULE_DOCTOR_FAILED });
+      };
+    } catch (error) {
+      dispatch({ type: actionTypes.FETCH_SCHEDULE_DOCTOR_FAILED });
+      console.log("fetchScheduleDoctor", error);
     }
   }
 }

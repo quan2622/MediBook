@@ -88,6 +88,15 @@ const saveScheduleDoctor = (data) => {
     console.log(error)
   }
 }
+
+const fetchScheduleDoctor = (doctorId, day) => {
+  try {
+    return axios.get(`/api/get-schedule-doctor?doctorId=${doctorId}&day=${day}`)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const userService = {
   handleLogin,
   getAllUser,
@@ -100,6 +109,7 @@ const userService = {
   saveDetaiDatalDoctor,
   getDetailDataDoctor,
   saveScheduleDoctor,
+  fetchScheduleDoctor,
 };
 
 export default userService;

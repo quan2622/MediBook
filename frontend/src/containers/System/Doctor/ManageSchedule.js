@@ -32,7 +32,7 @@ class ManageSchedule extends Component {
       this.setState({ listDoctor: doctorSelect });
     }
 
-    if (prevProps.schedule !== this.props.schedule) {
+    if (prevProps.schedule !== this.props.schedule || prevSate.selectedOption !== this.state.selectedOption) {
       const { schedule } = this.props;
       let rangeTime = [];
       if (schedule && schedule.length > 0)
