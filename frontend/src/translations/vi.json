@@ -72,5 +72,14 @@
             "choose": "Chọn ",
             "book-free": " và đặt lịch miễn phí!"
         }
+    },
+    "admin": {
+        "manage-doctor": {
+            "title": "Thêm thông tin bác sĩ",
+            "select-doctor": "Chọn bác sĩ",
+            "intro": "Thông tin giới thiệu",
+            "save": "Lưu thông tin",
+            "add": "Tạo thông tin"
+        }
     }
 }
