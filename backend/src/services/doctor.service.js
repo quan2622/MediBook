@@ -60,9 +60,12 @@ const getAllDoctor = () => {
 const createNewDetailDoctor = (payload) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (!payload.doctorId || !payload.contentHTML || !payload.contentMarkdown || !payload.action)
+      // console.log("Check data payload: ", payload);
+      if (!payload.doctorId || !payload.contentHTML || !payload.contentMarkdown || !payload.action || !payload.selectedPrice || !payload.selectedPayment || !payload.selectedProvince || !payload.nameClinic || !payload.addressClinic)
         resolve({ EC: 2, EM: "Missing required params" })
 
+
+      // UPSERT MARKDOWN
       if (payload.action === "CREATE") {
         await db.Markdown.create({
           contentHTML: payload.contentHTML,
@@ -81,7 +84,25 @@ const createNewDetailDoctor = (payload) => {
         )
         if (res[0] === 0) resolve({ EC: 3, EM: "Markdown doctor not found" })
       }
-      resolve({ EC: 0, EM: " Save Detail Success" });
+
+      // UPSERT DOCTOR INFO
+      const [doctorInfo, created] = await db.Doctor_Info.upsert({
+        doctorId: payload.doctorId,
+        priceId: payload.selectedPrice,
+        provincedId: payload.selectedProvince,
+        paymentId: payload.selectedPayment,
+        addressClinic: payload.addressClinic,
+        nameClinic: payload.nameClinic,
+        note: payload.note,
+      });
+
+      if (created) {
+        resolve({ EC: 0, EM: "Created Doctor Info Successed" });
+      } else {
+        resolve({ EC: 0, EM: "Update Doctor Info Successed" });
+      }
+
+      resolve({ EC: 0, EM: " Save Markdown Success" });
     } catch (error) {
       reject(error);
     }
