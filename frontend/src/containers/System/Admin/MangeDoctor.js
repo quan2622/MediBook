@@ -43,10 +43,12 @@ class ManageDoctor extends Component {
   }
 
   componentDidUpdate(prevProps, prevSate) {
+    // BUILD DATA SELECT DOCTOR
     if (prevProps.doctors !== this.props.doctors) {
       let dataSelect = this.buildDataSelect(this.props.doctors, 'USER');
       this.setState({ listDoctor: dataSelect });
     }
+    // HANDLE CHANGE LANGUAGE
     if (prevProps.language !== this.props.language) {
       const { doctors, allRequiredData } = this.props;
       if (this.props.doctors.length > 0) {
@@ -70,15 +72,27 @@ class ManageDoctor extends Component {
       }
 
     }
+    // SET STATE FOR DATA DOCTOR INFO
     if (prevProps.detailDoctor !== this.props.detailDoctor) {
       if (this.props.detailDoctor.description) {
-        const { description, contentHTML, contentMarkdown } = this.props.detailDoctor;
+        const { description, contentHTML, contentMarkdown, doctorInfo } = this.props.detailDoctor;
+        const { listPrice, listPayment, listProvince } = this.state;
         // console.log("Check data detail: ", this.props.detailDoctor);
-        this.setState({ description: description, contentHTML: contentHTML, contentMarkdown: contentMarkdown, hasData: true });
+        this.setState({
+          description: description, contentHTML: contentHTML,
+          contentMarkdown: contentMarkdown, hasData: true,
+          selectedPrice: listPrice.find(item => item.value === doctorInfo.priceId),
+          selectedPayment: listPayment.find(item => item.value === doctorInfo.paymentId),
+          selectedProvince: listProvince.find(item => item.value === doctorInfo.provinceId),
+          nameClinic: doctorInfo.nameClinic,
+          addressClinic: doctorInfo.addressClinic,
+          note: doctorInfo?.note || "",
+        });
       } else {
         this.setState({ description: "", contentHTML: "", contentMarkdown: "", hasData: false });
       }
     }
+    // BUILD DATA SELECT DOCTOR INFO
     if (prevProps.allRequiredData !== this.props.allRequiredData) {
       const { allRequiredData } = this.props;
       const resPayment = this.buildDataSelect(allRequiredData.resPayment, 'PAYMENT');
