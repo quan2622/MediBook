@@ -231,6 +231,36 @@ const getScheduleDoctor = (doctorId, day) => {
 
 }
 
+const getExtraInfoDoctorById = (doctorId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!doctorId) {
+        resolve({ EC: 1, EM: "Missing required params" });
+      }
+      else {
+        const res = await db.Doctor_Info.findOne({
+          where: { doctorId: doctorId },
+          attributes: { exclude: ['id', 'doctorId', 'createdAt', 'updatedAt'] },
+          include: [
+            { model: db.Allcode, as: 'price_data', attributes: ['valueEn', 'valueVi'] },
+            { model: db.Allcode, as: 'payment_data', attributes: ['valueEn', 'valueVi'] },
+            { model: db.Allcode, as: 'province_data', attributes: ['valueEn', 'valueVi'] },
+          ],
+          raw: false,
+          nest: true,
+        });
+
+        if (!res) {
+          resolve({ EC: 2, EM: "Cannot find doctor info", infoDoctor: {} })
+        }
+        resolve({ EC: 0, EM: "OK", infoDoctor: res });
+      }
+    } catch (error) {
+      reject(error);
+    }
+  })
+}
+
 module.exports = {
   getTopDoctorHome: getTopDoctorHome,
   getAllDoctor: getAllDoctor,
@@ -239,4 +269,5 @@ module.exports = {
   getMarkDownDoctor: getMarkDownDoctor,
   bulkCreateSchedule: bulkCreateSchedule,
   getScheduleDoctor: getScheduleDoctor,
+  getExtraInfoDoctorById: getExtraInfoDoctorById
 }
