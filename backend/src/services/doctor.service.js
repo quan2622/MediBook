@@ -89,7 +89,7 @@ const createNewDetailDoctor = (payload) => {
       const [doctorInfo, created] = await db.Doctor_Info.upsert({
         doctorId: payload.doctorId,
         priceId: payload.selectedPrice,
-        provincedId: payload.selectedProvince,
+        provinceId: payload.selectedProvince,
         paymentId: payload.selectedPayment,
         addressClinic: payload.addressClinic,
         nameClinic: payload.nameClinic,
@@ -120,10 +120,23 @@ const getDetailDoctorById = (doctorId) => {
         include: [
           { model: db.Markdown, as: 'markdown_data', attributes: ["description", "contentMarkdown", "contentHTML"] },
           { model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
+          {
+            model: db.Doctor_Info, as: 'doctor_info',
+            attributes: {
+              exclude: ['id', 'doctorId']
+            },
+            include: [
+              { model: db.Allcode, as: 'price_data', attributes: ['valueEn', 'valueVi'] },
+              { model: db.Allcode, as: 'payment_data', attributes: ['valueEn', 'valueVi'] },
+              { model: db.Allcode, as: 'province_data', attributes: ['valueEn', 'valueVi'] },
+            ],
+          },
         ],
         raw: false,
         nest: true,
       });
+
+      // console.log("Full result:", JSON.stringify(res, null, 2));
       if (!res) resolve({ EC: 3, EM: "Cannot find doctor" });
       if (res.image) {
         res.image = Buffer.from(res.image, 'base64').toString('binary');
@@ -142,8 +155,19 @@ const getMarkDownDoctor = (doctorId) => {
         where: { doctorId: doctorId },
         attributes: ['contentHTML', 'contentMarkdown', 'description']
       });
-      if (!res) resolve({ EC: 3, EM: "Cannot find doctor", detail: {} });
-      resolve({ EC: 0, EM: "Get markdown doctor success", detail: res });
+
+      const doctorInfo = await db.Doctor_Info.findOne({
+        where: { doctorId: doctorId },
+        attributes: {
+          exclude: ['id', 'doctorId']
+        }
+      })
+
+      const newData = _.cloneDeep(res);
+      newData.doctorInfo = doctorInfo || {};
+
+      if (!newData) resolve({ EC: 3, EM: "Cannot find doctor", detail: {} });
+      resolve({ EC: 0, EM: "Get markdown doctor success", detail: newData });
     } catch (error) {
       reject(error);
     }

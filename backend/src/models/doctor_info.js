@@ -11,12 +11,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Doctor_Info.belongsTo(models.User, { foreignKey: 'doctorId', targetKey: 'id', as: "doctor_data" })
+      Doctor_Info.belongsTo(models.Allcode, { foreignKey: 'priceId', targetKey: 'keyMap', as: "price_data" })
+      Doctor_Info.belongsTo(models.Allcode, { foreignKey: 'paymentId', targetKey: 'keyMap', as: "payment_data" })
+      Doctor_Info.belongsTo(models.Allcode, { foreignKey: 'provinceId', targetKey: 'keyMap', as: "province_data" })
+
     }
   };
   Doctor_Info.init({
     doctorId: DataTypes.INTEGER,
     priceId: DataTypes.STRING,
-    provincedId: DataTypes.STRING,
+    provinceId: DataTypes.STRING,
     paymentId: DataTypes.STRING,
     addressClinic: DataTypes.STRING,
     nameClinic: DataTypes.STRING,
