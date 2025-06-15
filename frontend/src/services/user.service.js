@@ -97,6 +97,14 @@ const fetchScheduleDoctor = (doctorId, day) => {
   }
 }
 
+const getExtraInfoDoctor = (doctorId) => {
+  try {
+    return axios.get(`/api/get-extra-info-doctor-by-id/${doctorId}`)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const userService = {
   handleLogin,
   getAllUser,
@@ -110,6 +118,7 @@ const userService = {
   getDetailDataDoctor,
   saveScheduleDoctor,
   fetchScheduleDoctor,
+  getExtraInfoDoctor,
 };
 
 export default userService;

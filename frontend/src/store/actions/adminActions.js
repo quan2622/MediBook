@@ -355,3 +355,30 @@ export const getRequiredDoctorInfoSuccess = (dataRequired) => ({
 export const getRequiredDoctorInfoFailed = () => ({
   type: actionTypes.FETCH_REQUIRED_DOCTOR_INFO_FAILED
 })
+
+// EXTRA INFO DOCTOR
+export const getExtraInfoDoctor = (dotorId) => {
+  return (async (dispatch, getState) => {
+    try {
+      const res = await userService.getExtraInfoDoctor(dotorId);
+      if (res.EC === 0 && res.infoDoctor) {
+        dispatch(getExtraInfoDoctorSuccess(res.infoDoctor))
+      } else {
+        // toast.error(res.EM);
+        dispatch(getExtraInfoDoctorFailed())
+      }
+    } catch (error) {
+      dispatch(getExtraInfoDoctorFailed());
+      console.log("getExtraInfoDoctor", error);
+    }
+  })
+}
+
+export const getExtraInfoDoctorSuccess = (dataExtra) => ({
+  type: actionTypes.GET_EXTRA_INFO_DOCTOR_SUCCESS,
+  payload: dataExtra,
+})
+
+export const getExtraInfoDoctorFailed = () => ({
+  type: actionTypes.GET_EXTRA_INFO_DOCTOR_FAILED
+})

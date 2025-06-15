@@ -71,6 +71,13 @@
             "no-schedule": "Không có lịch hẹn trong ngày, vui lòng chọn thời gian khác!",
             "choose": "Chọn ",
             "book-free": " và đặt lịch miễn phí!"
+        },
+        "extra-info": {
+            "text-address": "Địa chỉ phòng khám",
+            "price": "Giá khám: ",
+            "payment-method": "Hình thức thanh toán: ",
+            "detail": "Xem chi tiết",
+            "hidden-detail": "Ẩn chi tiết"
         }
     },
     "admin": {

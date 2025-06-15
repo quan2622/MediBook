@@ -14,6 +14,7 @@ const initialState = {
   scheduleDoctor: [],
   allRequiredData: {},
   isLoadingRequired: false,
+  dataExtraDoctor: {},
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -142,6 +143,18 @@ const adminReducer = (state = initialState, action) => {
         ...state,
         allRequiredData: {},
         isLoadingRequired: false,
+      }
+
+    case actionTypes.GET_EXTRA_INFO_DOCTOR_SUCCESS:
+      return {
+        ...state,
+        dataExtraDoctor: action.payload,
+      }
+
+    case actionTypes.GET_EXTRA_INFO_DOCTOR_FAILED:
+      return {
+        ...state,
+        dataExtraDoctor: {},
       }
 
     default:

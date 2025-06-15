@@ -13,12 +13,17 @@
     .detail-address {
       font-weight: 600;
       color: #333;
+      padding-bottom: 5px;
     }
   }
 
   .content-down {
     .short-info {
-      span {
+      .short-info-price {
+        padding: 0 3px;
+      }
+
+      .btn-detail {
         cursor: pointer;
         color: rgb(97, 97, 238);
       }

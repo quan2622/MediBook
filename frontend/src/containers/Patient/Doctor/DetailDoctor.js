@@ -33,7 +33,11 @@ class DetailDoctor extends Component {
   render() {
     const { dataDetailDoctor } = this.state;
     const { language } = this.props
-    if (!dataDetailDoctor || !dataDetailDoctor.markdown_data) return <div style={{ padding: '20px', fontSize: "18px", color: "grey" }}>Loading...</div>;
+    if (!dataDetailDoctor || !dataDetailDoctor.markdown_data)
+      return <div style={{ padding: '20px', fontSize: "18px", color: "grey" }}>
+        Loading...
+      </div>;
+
     let nameVi = `${dataDetailDoctor.positionData.valueVi}, ${dataDetailDoctor.lastName} ${dataDetailDoctor.firstName}`;
     let nameEn = `${dataDetailDoctor.positionData.valueEn}, ${dataDetailDoctor.firstName} ${dataDetailDoctor.lastName}`;
 
@@ -53,7 +57,7 @@ class DetailDoctor extends Component {
               <DoctorSchedule doctorId={this.state.currentDoctorId} />
             </div>
             <div className="content-right">
-              <DoctorExtraInfo />
+              <DoctorExtraInfo doctorId={this.state.currentDoctorId} />
             </div>
           </div>
           <div className="detail-info-doctor" dangerouslySetInnerHTML={{ __html: dataDetailDoctor.markdown_data.contentHTML }}>

@@ -74,20 +74,24 @@ class ManageDoctor extends Component {
     }
     // SET STATE FOR DATA DOCTOR INFO
     if (prevProps.detailDoctor !== this.props.detailDoctor) {
-      if (this.props.detailDoctor.description) {
-        const { description, contentHTML, contentMarkdown, doctorInfo } = this.props.detailDoctor;
+      const { detailDoctor } = this.props;
+      if (!_.isEmpty(detailDoctor) && detailDoctor.description) {
+        const { description, contentHTML, contentMarkdown, doctorInfo } = detailDoctor;
         const { listPrice, listPayment, listProvince } = this.state;
-        // console.log("Check data detail: ", this.props.detailDoctor);
         this.setState({
           description: description, contentHTML: contentHTML,
           contentMarkdown: contentMarkdown, hasData: true,
-          selectedPrice: listPrice.find(item => item.value === doctorInfo.priceId),
-          selectedPayment: listPayment.find(item => item.value === doctorInfo.paymentId),
-          selectedProvince: listProvince.find(item => item.value === doctorInfo.provinceId),
-          nameClinic: doctorInfo.nameClinic,
-          addressClinic: doctorInfo.addressClinic,
-          note: doctorInfo?.note || "",
         });
+        if (doctorInfo) {
+          this.setState({
+            selectedPrice: listPrice.find(item => item.value === doctorInfo.priceId),
+            selectedPayment: listPayment.find(item => item.value === doctorInfo.paymentId),
+            selectedProvince: listProvince.find(item => item.value === doctorInfo.provinceId),
+            nameClinic: doctorInfo.nameClinic,
+            addressClinic: doctorInfo.addressClinic,
+            note: doctorInfo?.note || "",
+          });
+        }
       } else {
         this.setState({ description: "", contentHTML: "", contentMarkdown: "", hasData: false });
       }
@@ -160,6 +164,9 @@ class ManageDoctor extends Component {
       addressClinic: this.state.addressClinic,
       note: this.state.note,
     });
+    this.setState({
+      hasData: true
+    })
   }
 
   handleChange = async (selectedDoctor) => {
