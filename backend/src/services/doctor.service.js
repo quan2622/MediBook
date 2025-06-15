@@ -164,9 +164,10 @@ const getMarkDownDoctor = (doctorId) => {
       })
 
       const newData = _.cloneDeep(res);
-      newData.doctorInfo = doctorInfo || {};
 
       if (!newData) resolve({ EC: 3, EM: "Cannot find doctor", detail: {} });
+
+      newData.doctorInfo = doctorInfo;
       resolve({ EC: 0, EM: "Get markdown doctor success", detail: newData });
     } catch (error) {
       reject(error);
