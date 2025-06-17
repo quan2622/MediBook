@@ -1,10 +1,20 @@
 import db from "../models/index"
+import emailService from "./email.service"
+
 const postBookingAppoinment = (dataBooking) => {
   return new Promise(async (resolve, reject) => {
     try {
       if (!dataBooking.email || !dataBooking.doctorId || !dataBooking.date || !dataBooking.timeType) {
         resolve({ EC: 1, EM: "Missing required params" });
       } else {
+        await emailService.sendEmailBooking(dataBooking.email, {
+          pateintName: "Nguyen Hong Quan",
+          doctorName: "Bui Tien J",
+          appointmentTime: "3:00 PM - 4:30 PM, Thứ 4 ngày 17/06/2025",
+          clinicAddress: "Ninh Kiều, Cần Thơ",
+          confirmationLink: "https://www.tiktok.com/"
+        });
+
         // create user if user hasn't account
         const [userData, created] = await db.User.findOrCreate({
           where: { email: dataBooking.email },
