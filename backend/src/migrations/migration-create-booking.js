@@ -23,6 +23,9 @@ module.exports = {
       timeType: {
         type: Sequelize.STRING
       },
+      tokenConfirm: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

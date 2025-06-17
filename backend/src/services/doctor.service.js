@@ -218,6 +218,11 @@ const getScheduleDoctor = (doctorId, day) => {
           where: { doctorId: doctorId, date: day },
           include: [
             { model: db.Allcode, as: 'scheduleData', attributes: ['valueEn', 'valueVi'] },
+            {
+              model: db.User, as: 'profile_doctor',
+              attributes: ['firstName', 'lastName'],
+              include: { model: db.Doctor_Info, as: "doctor_info", attributes: ["nameClinic", "addressClinic"] }
+            },
           ],
           raw: true,
           nest: true,
