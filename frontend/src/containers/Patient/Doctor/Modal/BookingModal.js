@@ -81,9 +81,27 @@ class BookingModal extends Component {
   hanldeInput = (event, type) => {
     this.setState({ [type]: event.target.value });
   }
+  // BUILD APPOINMENT TIME
+  buildAppoimentTime = () => {
+    const { language, dataSchedule } = this.props;
+    if (dataSchedule && !_.isEmpty(dataSchedule)) {
+      const { scheduleData } = dataSchedule;
+      const time = language === LANGUAGES.VI ? scheduleData.valueVi : scheduleData.valueEn
+      let date = language === LANGUAGES.VI ?
+        moment.unix(+dataSchedule.date / 1000).locale('vi').format("dddd - DD/MM/YYYY")
+        :
+        moment.unix(+dataSchedule.date / 1000).locale('en').format("ddd - MM/DD/YYYY")
+
+      date = date.charAt(0).toUpperCase() + date.slice(1);
+      return `${time}, ${date}`;
+
+    } else {
+      return "";
+    }
+  }
 
   handleConfirmBooking = async () => {
-    console.log("Check state: ", this.state);
+    const { language, dataSchedule } = this.props;
 
     const validateArr = ["fullName", "phoneNumber", "email", "address", "birthDay", "gender", "doctorId", "reason", "timeType"];
 
@@ -96,6 +114,14 @@ class BookingModal extends Component {
 
     if (hadError) return;
 
+    // BUILD DOCTOR NAME
+    const { profile_doctor } = dataSchedule;
+    let nameVi = `${profile_doctor.lastName} ${profile_doctor.firstName}`;
+    let nameEn = `${profile_doctor.firstName} ${profile_doctor.lastName}`;
+    const doctorName = language === LANGUAGES.VI ? nameVi : nameEn;
+    // CLINIC ADDRESS    
+    const addressClinic = `${profile_doctor.doctor_info.nameClinic} - ${profile_doctor.doctor_info.addressClinic}`
+
     let res = await userService.postBookingAppoinment({
       fullName: this.state.fullName,
       phoneNumber: this.state.phoneNumber,
@@ -106,6 +132,10 @@ class BookingModal extends Component {
       doctorId: this.state.doctorId,
       reason: this.state.reason,
       timeType: this.state.timeType,
+      appoinmentTime: this.buildAppoimentTime(),
+      language: language,
+      addressClinic: addressClinic,
+      doctorName: doctorName
     });
 
     if (res && res.EC === 0) {
