@@ -107,6 +107,20 @@ const getExtraInfoDoctorById = async (req, res) => {
   }
 }
 
+// GET /api/get-profile-doctor-by-id/:doctorId
+const getProfileDoctorById = async (req, res) => {
+  try {
+    const data = await doctorService.getProfileDoctorById(req.params.doctorId);
+    return res.status(200).json(data);
+  } catch (error) {
+    console.log("Error get extra info doctor by Id: ", error);
+    return res.status(500).json({
+      EC: 1,
+      EM: "Error get schedule!"
+    })
+  }
+}
+
 module.exports = {
   getTopDoctorHome,
   getAllDoctor,
@@ -114,5 +128,6 @@ module.exports = {
   getDetailDoctor,
   bulkCreateSchedule,
   getScheduleDoctor,
-  getExtraInfoDoctorById
+  getExtraInfoDoctorById,
+  getProfileDoctorById,
 }

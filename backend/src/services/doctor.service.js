@@ -262,6 +262,50 @@ const getExtraInfoDoctorById = (doctorId) => {
   })
 }
 
+const getProfileDoctorById = (doctorId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!doctorId) {
+        resolve({ EC: 1, EM: "Missing required params" });
+      }
+      else {
+        const res = await db.User.findOne({
+          where: { id: doctorId },
+          attributes: {
+            exclude: ['password'],
+          },
+          include: [
+            { model: db.Markdown, as: 'markdown_data', attributes: ['description'] },
+            { model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
+            {
+              model: db.Doctor_Info, as: 'doctor_info',
+              attributes: {
+                exclude: ['id', 'doctorId']
+              },
+              include: [
+                { model: db.Allcode, as: 'price_data', attributes: ['valueEn', 'valueVi'] },
+                { model: db.Allcode, as: 'payment_data', attributes: ['valueEn', 'valueVi'] },
+                { model: db.Allcode, as: 'province_data', attributes: ['valueEn', 'valueVi'] },
+              ],
+            },
+          ],
+          raw: false,
+          nest: true,
+        });
+
+        // console.log("Full result:", JSON.stringify(res, null, 2));
+        if (!res) resolve({ EC: 3, EM: "Cannot find doctor" });
+        if (res.image) {
+          res.image = Buffer.from(res.image, 'base64').toString('binary');
+        }
+        resolve({ EC: 0, EM: "Get detail success", profile: res });
+      }
+    } catch (error) {
+      reject(error);
+    }
+  })
+}
+
 module.exports = {
   getTopDoctorHome: getTopDoctorHome,
   getAllDoctor: getAllDoctor,
@@ -270,5 +314,6 @@ module.exports = {
   getMarkDownDoctor: getMarkDownDoctor,
   bulkCreateSchedule: bulkCreateSchedule,
   getScheduleDoctor: getScheduleDoctor,
-  getExtraInfoDoctorById: getExtraInfoDoctorById
+  getExtraInfoDoctorById: getExtraInfoDoctorById,
+  getProfileDoctorById: getProfileDoctorById,
 }
