@@ -2,6 +2,7 @@ import actionTypes from './actionTypes';
 import userService from "../../services/user.service"
 import axios from "axios";
 import { toast } from "react-toastify";
+import { ListGroup } from "reactstrap";
 
 // GENDER
 export const fetchGenderStart = () => {
@@ -381,4 +382,32 @@ export const getExtraInfoDoctorSuccess = (dataExtra) => ({
 
 export const getExtraInfoDoctorFailed = () => ({
   type: actionTypes.GET_EXTRA_INFO_DOCTOR_FAILED
+})
+
+// PROFILE DOCTOR
+export const getProfileDoctor = (doctorId) => {
+  return (async (dispatch, getState) => {
+    try {
+      const res = await userService.getProfileDoctor(doctorId);
+      console.log("Check res: ", res);
+      if (res.EC === 0 && res.profile) {
+        dispatch(getProfileDoctorSuccess(res.profile))
+      } else {
+        // toast.error(res.EM);
+        dispatch(getProfileDoctorFailed())
+      }
+    } catch (error) {
+      dispatch(getProfileDoctorFailed());
+      console.log("getProfileDoctor", error);
+    }
+  })
+}
+
+export const getProfileDoctorSuccess = (dataExtra) => ({
+  type: actionTypes.GET_PROFILE_DOCTOR_SUCCESS,
+  payload: dataExtra,
+})
+
+export const getProfileDoctorFailed = () => ({
+  type: actionTypes.GET_PROFILE_DOCTOR_FAILED
 })

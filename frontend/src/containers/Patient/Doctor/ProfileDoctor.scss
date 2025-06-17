@@ -1,0 +1,66 @@
+.profile-doctor-container {
+  .intro-doctor {
+    display: flex;
+    padding: 10px 0 0;
+    gap: 12px;
+    .profile-left {
+      min-width: 13%;
+      height: 100px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      border-radius: 50%;
+      margin: 10px 20px;
+      filter: drop-shadow(1px 1px 4px #d8d5d5);
+      transition: all 0.2s ease;
+
+      &:hover {
+        filter: drop-shadow(1px 1px 6px #a29f9f);
+        transform: scale(105%);
+      }
+    }
+    .profile-right {
+      padding: 10px 20px;
+      display: flex;
+      flex-direction: column;
+      .name-doctor {
+        font-size: 22px;
+        font-weight: 600;
+        padding-top: 12px;
+      }
+      .description-doctor {
+        text-align: justify;
+        font-size: 13px;
+        font-weight: 500;
+        color: #666;
+        span {
+          color: #333;
+          font-style: italic;
+          text-decoration: underline;
+        }
+        .schdeule-container {
+          display: flex;
+          gap: 16px;
+          span {
+            text-decoration: none;
+            display: inline-flex;
+            gap: 4px;
+            align-items: center;
+            color: #e38642;
+          }
+        }
+      }
+    }
+  }
+  .price {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: rgb(231, 107, 107);
+    padding-bottom: 12px;
+    span {
+      font-size: 16px;
+      display: inline-block;
+    }
+  }
+}

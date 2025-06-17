@@ -1,0 +1,25 @@
+.booking-modal-container {
+}
+
+// CUSTOM CSS REACTSTRAP
+.booking-modal-header {
+  display: flex;
+  justify-content: space-between !important;
+  .modal-title {
+    font-size: 22px !important;
+    font-weight: 600;
+  }
+  .close {
+    outline: none;
+    border: none;
+    background-color: transparent;
+    font-size: 20px;
+  }
+}
+.booking-modal-body {
+  width: 100%;
+  overflow: hidden;
+  max-height: 550px;
+  padding: 0 30px;
+}
+// CUSTOM CSS REACTSTRAP

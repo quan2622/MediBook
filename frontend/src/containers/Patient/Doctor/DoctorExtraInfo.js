@@ -11,7 +11,7 @@ class DoctorExtraInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isShowDetailInfo: true,
+      isShowDetailInfo: false,
       extraInfo: {},
     }
   }
@@ -27,7 +27,7 @@ class DoctorExtraInfo extends Component {
   }
 
   render() {
-    console.log("Check data extra: ", this.state.extraInfo);
+    // console.log("Check data extra: ", this.state.extraInfo);
     const { isShowDetailInfo, extraInfo } = this.state;
     const { language } = this.props;
 

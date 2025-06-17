@@ -15,6 +15,7 @@ const initialState = {
   allRequiredData: {},
   isLoadingRequired: false,
   dataExtraDoctor: {},
+  profileDoctor: {},
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -155,6 +156,18 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
         dataExtraDoctor: {},
+      }
+
+    case actionTypes.GET_PROFILE_DOCTOR_SUCCESS:
+      return {
+        ...state,
+        profileDoctor: action.payload,
+      }
+
+    case actionTypes.GET_PROFILE_DOCTOR_FAILED:
+      return {
+        ...state,
+        profileDoctor: {},
       }
 
     default:

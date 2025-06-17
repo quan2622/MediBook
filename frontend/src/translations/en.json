@@ -76,7 +76,7 @@
             "text-address": "Clinic's Address",
             "price": "Price:",
             "payment-method": "Payment methods: ",
-            "detail": "Get detail",
+            "detail": "Show more detail",
             "hidden-detail": "Hidden detail"
         }
     },
