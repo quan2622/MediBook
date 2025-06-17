@@ -1,8 +1,6 @@
 import actionTypes from './actionTypes';
 import userService from "../../services/user.service"
-import axios from "axios";
 import { toast } from "react-toastify";
-import { ListGroup } from "reactstrap";
 
 // GENDER
 export const fetchGenderStart = () => {

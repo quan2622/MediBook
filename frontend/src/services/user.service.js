@@ -113,6 +113,14 @@ const getProfileDoctor = (doctorId) => {
   }
 }
 
+const postBookingAppoinment = (dataBooking) => {
+  try {
+    return axios.post(`/api/post-booking-appoinment`, dataBooking);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 const userService = {
   handleLogin,
   getAllUser,
@@ -128,6 +136,7 @@ const userService = {
   fetchScheduleDoctor,
   getExtraInfoDoctor,
   getProfileDoctor,
+  postBookingAppoinment,
 };
 
 export default userService;

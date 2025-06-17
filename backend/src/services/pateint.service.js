@@ -15,7 +15,10 @@ const postBookingAppoinment = (dataBooking) => {
         })
         if (userData) {
           const [result, bookingCreated] = await db.Booking.findOrCreate({
-            where: { patientId: userData.id },
+            where: {
+              patientId: userData.id,
+              timeType: dataBooking.timeType
+            },
             defaults: {
               statusId: "S1",
               doctorId: dataBooking.doctorId,

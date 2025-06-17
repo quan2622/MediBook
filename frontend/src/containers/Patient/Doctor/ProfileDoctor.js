@@ -56,7 +56,7 @@ class ProfileDoctor extends Component {
               {date}
             </span>
           </div>
-          <div>Miễn phí đặt lịch</div>
+          <div><FormattedMessage id="patient.bookingModal.price-booking" /></div>
         </>
       )
     } else {
@@ -91,7 +91,7 @@ class ProfileDoctor extends Component {
               }
               {isShowAddressClinic === true &&
                 <>
-                  <span>Địa chỉ phòng khám:</span> {`${dataProfile.doctor_info.nameClinic} - ${dataProfile.doctor_info.addressClinic}`}
+                  <span><FormattedMessage id="patient.bookingModal.clinic-address" /></span> {`${dataProfile.doctor_info.nameClinic} - ${dataProfile.doctor_info.addressClinic}`}
                 </>
               }
             </p>
@@ -101,12 +101,12 @@ class ProfileDoctor extends Component {
           <i class="fas fa-flag fa-lg"></i>
           {language === LANGUAGES.VI ?
             <span>
-              Giá khám&nbsp;
+              <FormattedMessage id="patient.bookingModal.price" />&nbsp;
               <NumericFormat value={dataProfile?.doctor_info?.price_data.valueVi} thousandSeparator="," suffix=" VNĐ" displayType="text" />
             </span>
             :
             <span>
-              Giá khám&nbsp;
+              <FormattedMessage id="patient.bookingModal.price" />&nbsp;
               <NumericFormat value={dataProfile?.doctor_info?.price_data.valueEn} thousandSeparator="," suffix=" $" displayType="text" />
             </span>
           }

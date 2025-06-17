@@ -78,6 +78,21 @@
             "payment-method": "Payment methods: ",
             "detail": "Show more detail",
             "hidden-detail": "Hidden detail"
+        },
+        "bookingModal": {
+            "title": "Appointment Information",
+            "fullName": "Full name",
+            "phoneNumber": "Phone number",
+            "email": "Email",
+            "address": "Address",
+            "birth": "Birthday",
+            "gender": "Gender",
+            "reason": "Reasons for medical examination",
+            "confirm": " Confirm",
+            "cancel": "Cancel",
+            "clinic-address": "Clinic's address:",
+            "price-booking": "Free Booking",
+            "price": "Price:"
         }
     },
     "admin": {
