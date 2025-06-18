@@ -14,6 +14,22 @@ const postBookingAppoinment = async (req, res) => {
   }
 }
 
+// POST /api/verify-booking-appoinment
+const postVerifyBookingAppoinment = async (req, res) => {
+  try {
+    const data = await paitentService.postVerifyBookingAppoinment(req.body);
+    return res.status(200).json({ ...data });
+  } catch (error) {
+    console.log(error);
+    return res.status(200).json({
+      EC: 1,
+      EM: "Error when verify booking appoinment!"
+    })
+  }
+}
+
 module.exports = {
   postBookingAppoinment,
+  postVerifyBookingAppoinment,
+
 }
