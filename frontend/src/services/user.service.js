@@ -121,6 +121,22 @@ const postBookingAppoinment = (dataBooking) => {
   }
 }
 
+const verifyBooking = (dataVerify) => {
+  try {
+    return axios.post(`/api/verify-booking-appoinment`, dataVerify);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const getDataBooking = (token) => {
+  try {
+    return axios.get(`/api/get-booking-appoinment/${token}`);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 const userService = {
   handleLogin,
   getAllUser,
@@ -137,6 +153,8 @@ const userService = {
   getExtraInfoDoctor,
   getProfileDoctor,
   postBookingAppoinment,
+  verifyBooking,
+  getDataBooking,
 };
 
 export default userService;

@@ -20,7 +20,7 @@ class DefaultClass extends Component {
 
   render() {
     return (
-      <div className="doctor-extra-info-container">
+      <div className="">
 
       </div >
     );
@@ -36,8 +36,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getDetailDoctor: (doctorId) => dispatch(actions.getDetailDoctor(doctorId)),
-    getExtraInfoDoctor: (doctorId) => dispatch(actions.getExtraInfoDoctor(doctorId))
+    // getDetailDoctor: (doctorId) => dispatch(actions.getDetailDoctor(doctorId)),
   };
 };
 
