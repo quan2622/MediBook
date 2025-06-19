@@ -2,6 +2,7 @@ import { where } from "sequelize";
 import db from "../models/index"
 import emailService from "./email.service"
 import { v4 as uuidv4 } from 'uuid';
+import { clouderrorreporting } from "googleapis/build/src/apis/clouderrorreporting";
 require('dotenv').config()
 
 const isValidateEmail = (email) => {
@@ -23,17 +24,7 @@ const postBookingAppoinment = (dataBooking) => {
         if (!isValidateEmail(dataBooking.email)) {
           return resolve({ EC: 2, EM: "Invalid email!" });
         }
-
         const token = uuidv4();
-
-        await emailService.sendEmailBooking(dataBooking.email, {
-          pateintName: dataBooking.fullName,
-          doctorName: dataBooking.doctorName,
-          appointmentTime: dataBooking.appoinmentTime,
-          clinicAddress: dataBooking.addressClinic,
-          confirmationLink: buildURL(dataBooking.doctorId, token),
-          language: dataBooking.language,
-        });
 
         // create user if user hasn't account
         const { fullName, language } = dataBooking;
@@ -51,10 +42,11 @@ const postBookingAppoinment = (dataBooking) => {
           }
         })
         if (userData) {
+          console.log("Check date: ", dataBooking.date);
           const [result, bookingCreated] = await db.Booking.findOrCreate({
             where: {
               patientId: userData.id,
-              timeType: dataBooking.timeType
+              date: dataBooking.date
             },
             defaults: {
               statusId: "S1",
@@ -65,6 +57,18 @@ const postBookingAppoinment = (dataBooking) => {
               tokenConfirm: token,
             }
           })
+          console.log("Check booking: ", bookingCreated);
+          if (bookingCreated) {
+
+            await emailService.sendEmailBooking(dataBooking.email, {
+              pateintName: dataBooking.fullName,
+              doctorName: dataBooking.doctorName,
+              appointmentTime: dataBooking.appoinmentTime,
+              clinicAddress: dataBooking.addressClinic,
+              confirmationLink: buildURL(dataBooking.doctorId, token),
+              language: dataBooking.language,
+            });
+          }
 
           resolve({
             EC: 0,
@@ -135,7 +139,7 @@ const getDataAppoinment = (token) => {
         if (!res) {
           resolve({ EC: 2, EM: "Cannot get data of this booking!" });
         } else {
-          resolve({ EC: 0, EM: "OK", dataBooing: res });
+          resolve({ EC: 0, EM: "OK", dataBooking: res });
         }
       }
     } catch (error) {
