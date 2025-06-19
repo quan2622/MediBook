@@ -137,6 +137,14 @@ const getDataBooking = (token) => {
   }
 }
 
+const createNewSpecialty = (payload) => {
+  try {
+    return axios.post("/api/create-new-specialty", payload);
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const userService = {
   handleLogin,
   getAllUser,
@@ -155,6 +163,7 @@ const userService = {
   postBookingAppoinment,
   verifyBooking,
   getDataBooking,
+  createNewSpecialty
 };
 
 export default userService;
