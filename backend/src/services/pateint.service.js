@@ -1,3 +1,4 @@
+import { where } from "sequelize";
 import db from "../models/index"
 import emailService from "./email.service"
 import { v4 as uuidv4 } from 'uuid';
@@ -35,11 +36,18 @@ const postBookingAppoinment = (dataBooking) => {
         });
 
         // create user if user hasn't account
+        const { fullName, language } = dataBooking;
+        const isVi = language === 'vi';
+        const separate = isVi ? fullName.lastIndexOf(" ") : fullName.indexOf(" ");
+        const firstPart = fullName.slice(0, separate);
+        const lastPart = fullName.slice(separate + 1);
         const [userData, created] = await db.User.findOrCreate({
           where: { email: dataBooking.email },
           defaults: {
             email: dataBooking.email,
             roleId: "R3",
+            firstName: isVi ? lastPart : firstPart,
+            lastName: isVi ? firstPart : lastPart,
           }
         })
         if (userData) {
@@ -78,7 +86,6 @@ const postVerifyBookingAppoinment = (dataVerify) => {
       if (!dataVerify || !dataVerify.doctorId || !dataVerify.token) {
         return resolve({ EC: 2, EM: "Misisng required params!" });
       } else {
-        console.log("Check data verify: ", dataVerify);
         const appoinment = await db.Booking.findOne({
           where: {
             doctorId: dataVerify.doctorId,
@@ -87,7 +94,6 @@ const postVerifyBookingAppoinment = (dataVerify) => {
           },
           raw: false,
         });
-        console.log('Check appoinment: ', appoinment);
         if (appoinment) {
           appoinment.statusId = "S2";
           await appoinment.save();
@@ -102,8 +108,44 @@ const postVerifyBookingAppoinment = (dataVerify) => {
   })
 }
 
+const getDataAppoinment = (token) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!token) {
+        return resolve({ EC: 1, EM: "Missing required params" });
+      } else {
+        const res = await db.Booking.findOne({
+          where: { tokenConfirm: token },
+          include: [
+            { model: db.User, as: 'user_data', attributes: ['firstName', 'lastName'] },
+            { model: db.Allcode, as: 'time_data', attributes: ['valueVi', 'valueEn'] },
+            {
+              model: db.User,
+              as: 'doctor_data',
+              attributes: ['firstName', 'lastName'],
+              include: { model: db.Doctor_Info, as: 'doctor_info', attributes: ['addressClinic', 'nameClinic'] },
+              raw: true,
+              nest: true,
+            },
+          ],
+          raw: true,
+          nest: true,
+        })
+
+        if (!res) {
+          resolve({ EC: 2, EM: "Cannot get data of this booking!" });
+        } else {
+          resolve({ EC: 0, EM: "OK", dataBooing: res });
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  })
+}
 
 module.exports = {
   postBookingAppoinment,
   postVerifyBookingAppoinment,
+  getDataAppoinment,
 }

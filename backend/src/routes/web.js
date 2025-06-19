@@ -35,6 +35,7 @@ let initWebRoutes = (app) => {
 
   router.post('/api/post-booking-appoinment', pateintController.postBookingAppoinment)
   router.post('/api/verify-booking-appoinment', pateintController.postVerifyBookingAppoinment)
+  router.get('/api/get-booking-appoinment/:token', pateintController.getDataAppoinment)
 
   return app.use("/", router);
 };
