@@ -24,7 +24,23 @@ const createNewSpecialty = (payload) => {
   })
 }
 
+const getAllSpecialty = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const data = await db.Specialty.findAll({ raw: false });
+
+      if (data) {
+        data.map(item => item.image = Buffer.from(item.image, 'base64').toString('binary'))
+        return resolve({ EC: 0, EM: "Get All Specialty Successed", data });
+      } else return resolve({ EC: 0, EM: "Get All Specialty Failed" });
+    } catch (error) {
+      reject(error);
+    }
+  })
+}
+
 
 export default {
   createNewSpecialty,
+  getAllSpecialty,
 }
