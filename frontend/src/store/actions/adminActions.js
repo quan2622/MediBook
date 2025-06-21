@@ -319,7 +319,7 @@ export const fetchScheduleDoctor = (doctorId, day) => {
   }
 }
 
-// GENDER
+// DATA SELECT
 export const getRequiredDoctorInfo = () => {
   return async (dispatch, getState) => {
     try {
@@ -328,6 +328,7 @@ export const getRequiredDoctorInfo = () => {
       let resPrice = await userService.getAllCodeService("PRICE");
       let resPayment = await userService.getAllCodeService("PAYMENT");
       let resProvince = await userService.getAllCodeService("PROVINCE");
+      let resSpecialty = await userService.getAllSpecialty();
       if (resPrice && resPrice.EC === 0
         && resPayment && resPayment.EC === 0
         && resProvince && resProvince.EC === 0
@@ -336,6 +337,7 @@ export const getRequiredDoctorInfo = () => {
           resPrice: resPrice.data,
           resPayment: resPayment.data,
           resProvince: resProvince.data,
+          resSpecialty: resSpecialty.data,
         }
         dispatch(getRequiredDoctorInfoSuccess(data));
       } else dispatch(fetchGenderFailed());
