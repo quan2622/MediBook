@@ -18,7 +18,8 @@ class ManageSpecialty extends Component {
       nameSpecialty: "",
       imageSpecialty: "", //base64
       descriptionHTML: "",
-      descriptionMarkdown: ""
+      descriptionMarkdown: "",
+      imageKey: Date.now(),
     }
   }
 
@@ -39,7 +40,7 @@ class ManageSpecialty extends Component {
   handleOnChangeInput = async (e, id) => {
     if (id === "imageSpecialty") {
       if (e.target && e.target.files && e.target.files[0]) {
-        this.setState({ [id]: await CommonUtils.getBase64(e.target.files[0]) });
+        this.setState({ [id]: await CommonUtils.getBase64(e.target.files[0]), });
       }
     } else {
       this.setState({ [id]: e.target.value });
@@ -57,11 +58,19 @@ class ManageSpecialty extends Component {
 
     if (res && res.EC === 0) {
       toast.success(res.EM);
+      this.setState({
+        nameSpecialty: "",
+        imageSpecialty: "",
+        descriptionHTML: "",
+        descriptionMarkdown: "",
+        imageKey: Date.now(),
+      })
+
     } else toast.error(res.EM);
   }
 
   render() {
-    const { descriptionMarkdown, nameSpecialty } = this.state;
+    const { descriptionMarkdown, nameSpecialty, imageKey } = this.state;
 
 
     return (
@@ -75,7 +84,7 @@ class ManageSpecialty extends Component {
             </div>
             <div className="col-6 form-group">
               <label className="form-label">Ảnh chuyên khoa</label>
-              <input className="form-control" type="file" onChange={(e) => this.handleOnChangeInput(e, 'imageSpecialty')} />
+              <input className="form-control" type="file" onChange={(e) => this.handleOnChangeInput(e, 'imageSpecialty')} key={imageKey} />
             </div>
           </div>
           <MdEditor

@@ -145,6 +145,14 @@ const createNewSpecialty = (payload) => {
   }
 }
 
+const getAllSpecialty = () => {
+  try {
+    return axios.get(`/api/get-all-specialty`);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 const userService = {
   handleLogin,
   getAllUser,
@@ -163,7 +171,8 @@ const userService = {
   postBookingAppoinment,
   verifyBooking,
   getDataBooking,
-  createNewSpecialty
+  createNewSpecialty,
+  getAllSpecialty
 };
 
 export default userService;
