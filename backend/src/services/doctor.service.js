@@ -56,14 +56,32 @@ const getAllDoctor = () => {
   })
 }
 
+const checkRquiredFields = (data) => {
+  const arr = ["doctorId", "contentHTML", "contentMarkdown", "action", "selectedPrice", "selectedPayment", "selectedProvince", "selectedSpecialty", "selectedClinic", "nameClinic", "addressClinic",];
+
+  const missingFields = arr.filter(item => !hasData(data[item]));
+
+  return {
+    isValid: missingFields.length === 0,
+    missingFields
+  }
+}
+
+const hasData = (value) => {
+  if (value == null) return false;
+  if (typeof value === 'string') return value.trim() !== '';
+  if (typeof value === 'number') return !isNaN(value);
+  if (Array.isArray(value)) return value.length > 0;
+  if (typeof value === 'object') return Object.keys(value).length > 0;
+  return true;
+}
 
 const createNewDetailDoctor = (payload) => {
   return new Promise(async (resolve, reject) => {
     try {
-      // console.log("Check data payload: ", payload);
-      if (!payload.doctorId || !payload.contentHTML || !payload.contentMarkdown || !payload.action || !payload.selectedPrice || !payload.selectedPayment || !payload.selectedProvince || !payload.nameClinic || !payload.addressClinic)
-        resolve({ EC: 2, EM: "Missing required params" })
-
+      const { isValid, missingFields } = checkRquiredFields(payload)
+      if (!isValid) // pass ? true : flase
+        return resolve({ EC: 2, EM: "Missing required params", EF: missingFields });
 
       // UPSERT MARKDOWN
       if (payload.action === "CREATE") {
@@ -88,6 +106,8 @@ const createNewDetailDoctor = (payload) => {
       // UPSERT DOCTOR INFO
       const [doctorInfo, created] = await db.Doctor_Info.upsert({
         doctorId: payload.doctorId,
+        specialtyId: +payload.selectedSpecialty, // INTERGER
+        clinicId: +payload.selectedClinic, // INTERGER
         priceId: payload.selectedPrice,
         provinceId: payload.selectedProvince,
         paymentId: payload.selectedPayment,
