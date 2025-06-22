@@ -9,6 +9,8 @@ import 'moment/min/locales';
 import _ from "lodash";
 import { FormattedMessage } from "react-intl";
 import BookingModal from "./Modal/BookingModal";
+import { toast } from "react-toastify";
+import userService from "../../../services/user.service";
 
 
 const select_style = {
@@ -29,7 +31,8 @@ class DoctorSchedule extends Component {
       allDays: [],
       selectedOption: null,
       isOpenModalBooking: false,
-      dataScheduleBooking: {}
+      dataScheduleBooking: {},
+      scheduleDoctor: [],
     }
   }
 
@@ -77,11 +80,17 @@ class DoctorSchedule extends Component {
     return isToday ? `Today - ${raw.split(' - ')[1]}` : raw;
   }
 
-  handleOnchangeSelect = (select) => {
+  handleOnchangeSelect = async (select) => {
     const { doctorId } = this.props;
     if (doctorId !== -1) {
       this.setState({ selectedOption: select });
-      this.props.fetchScheduleDoctor(doctorId, select.value);
+      const res = await userService.fetchScheduleDoctor(doctorId, select.value);
+      if (res && res.EC === 0) {
+        this.setState({ scheduleDoctor: res.data })
+      } else {
+        this.setState({ scheduleDoctor: [] })
+        toast.error(res.EM);
+      };
     }
   }
 
@@ -95,9 +104,8 @@ class DoctorSchedule extends Component {
   }
 
   render() {
-    const { allDays, selectedOption, isOpenModalBooking, dataScheduleBooking } = this.state;
-    const { scheduleDoctor, language } = this.props;
-    // console.log("Check data schedule doctor: ", this.props.scheduleDoctor)
+    const { allDays, selectedOption, isOpenModalBooking, dataScheduleBooking, scheduleDoctor } = this.state;
+    const { language } = this.props;
     return (
       <>
         <div className="doctor-schedule-container">
@@ -158,16 +166,12 @@ class DoctorSchedule extends Component {
 const mapStateToProps = state => {
   return {
     language: state.app.language,
-    scheduleDoctor: state.admin.scheduleDoctor,
     detailDoctor: state.admin.detailDoctor,
   };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    fetchScheduleDoctor: (doctorId, day) => dispatch(actions.fetchScheduleDoctor(doctorId, day)),
-
-  };
+  return {};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DoctorSchedule);
