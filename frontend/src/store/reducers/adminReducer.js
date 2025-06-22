@@ -11,11 +11,9 @@ const initialState = {
   doctorList: [],
   detailDoctor: {},
   schedule: [],
-  scheduleDoctor: [],
   allRequiredData: {},
   isLoadingRequired: false,
   dataExtraDoctor: {},
-  profileDoctor: {},
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -117,17 +115,6 @@ const adminReducer = (state = initialState, action) => {
         ...state,
         schedule: []
       }
-    case actionTypes.FETCH_SCHEDULE_DOCTOR_SUCCESS:
-      return {
-        ...state,
-        scheduleDoctor: action.payload
-      }
-    case actionTypes.FETCH_SCHEDULE_DOCTOR_FAILED:
-      return {
-        ...state,
-        scheduleDoctor: []
-      }
-
     case actionTypes.FETCH_REQUIRED_DOCTOR_INFO_START:
       return {
         ...state,
@@ -144,30 +131,6 @@ const adminReducer = (state = initialState, action) => {
         ...state,
         allRequiredData: {},
         isLoadingRequired: false,
-      }
-
-    case actionTypes.GET_EXTRA_INFO_DOCTOR_SUCCESS:
-      return {
-        ...state,
-        dataExtraDoctor: action.payload,
-      }
-
-    case actionTypes.GET_EXTRA_INFO_DOCTOR_FAILED:
-      return {
-        ...state,
-        dataExtraDoctor: {},
-      }
-
-    case actionTypes.GET_PROFILE_DOCTOR_SUCCESS:
-      return {
-        ...state,
-        profileDoctor: action.payload,
-      }
-
-    case actionTypes.GET_PROFILE_DOCTOR_FAILED:
-      return {
-        ...state,
-        profileDoctor: {},
       }
 
     default:
