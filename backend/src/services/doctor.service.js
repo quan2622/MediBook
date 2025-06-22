@@ -1,4 +1,4 @@
-const { where } = require("sequelize");
+const { where, Op } = require("sequelize");
 const db = require("../models");
 import _ from 'lodash'
 require('dotenv').config();
@@ -217,8 +217,17 @@ const bulkCreateSchedule = (payload) => {
         const diffSchedule = _.differenceWith(scheduleData, existSchedule, (a, b) => {
           return a.timeType === b.timeType && +a.date === +b.date;
         })
+
+        const diffScheduleSub = _.differenceWith(existSchedule, scheduleData, (a, b) => {
+          return a.timeType === b.timeType && +a.date === +b.date;
+        })
         if (diffSchedule && diffSchedule.length > 0) {
           await db.Schedule.bulkCreate(diffSchedule);
+          resolve({ EC: 0, EM: "Save schedule success" });
+        }
+
+        if (diffScheduleSub && diffScheduleSub.length > 0) {
+          await db.Schedule.destroy({ where: { [Op.or]: diffScheduleSub } });
           resolve({ EC: 0, EM: "Save schedule success" });
         }
         resolve({ EC: 0, EM: "Cannot save more schedule!" });
