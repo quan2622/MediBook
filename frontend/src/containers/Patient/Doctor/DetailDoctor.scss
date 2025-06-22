@@ -44,11 +44,13 @@
     min-height: 220px;
     .content-left {
       width: 60%;
-      padding: 22px 0;
+      margin: 22px 0;
+      border-right: 1px solid #eee;
     }
     .content-right {
       width: 40%;
-      padding: 22px 0;
+      margin: 22px 0;
+      padding-left: 20px;
     }
   }
   .detail-info-doctor {

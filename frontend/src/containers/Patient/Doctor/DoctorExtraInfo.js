@@ -6,6 +6,9 @@ import { LANGUAGES } from "../../../utils";
 import "./DoctorExtraInfo.scss"
 import { NumericFormat } from 'react-number-format';
 import { FormattedMessage } from "react-intl";
+import userService from "../../../services/user.service";
+import { toast } from "react-toastify";
+import _ from "lodash";
 
 class DoctorExtraInfo extends Component {
   constructor(props) {
@@ -17,19 +20,35 @@ class DoctorExtraInfo extends Component {
   }
 
   componentDidMount() {
-    this.props.getExtraInfoDoctor(this.props.doctorId);
+    if (this.props.doctorId) {
+      this.handleGetExtraInfo(this.props.doctorId);
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.dataExtraDoctor !== this.props.dataExtraDoctor) {
-      this.setState({ extraInfo: this.props.dataExtraDoctor })
+    if (prevProps.doctorId !== this.props.doctorId) {
+      this.handleGetExtraInfo(this.props.doctorId);
+    }
+  }
+
+
+  handleGetExtraInfo = async (doctorId) => {
+    const res = await userService.getExtraInfoDoctor(doctorId);
+    if (res.EC === 0 && res.infoDoctor) {
+      this.setState({ extraInfo: res.infoDoctor });
+    } else {
+      this.setState({ extraInfo: {} });
+      // toast.error(res.EM);
     }
   }
 
   render() {
-    // console.log("Check data extra: ", this.state.extraInfo);
     const { isShowDetailInfo, extraInfo } = this.state;
     const { language } = this.props;
+
+    if (_.isEmpty(extraInfo)) return (
+      <div className="doctor-extra-info-nodata">Không tìm thấy thông tin của bác sĩ</div>
+    )
 
     return (
       <div className="doctor-extra-info-container">
@@ -106,17 +125,12 @@ class DoctorExtraInfo extends Component {
 
 const mapStateToProps = state => {
   return {
-    isLoggedIn: state.user.isLoggedIn,
     language: state.app.language,
-    dataExtraDoctor: state.admin.dataExtraDoctor,
   };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    getDetailDoctor: (doctorId) => dispatch(actions.getDetailDoctor(doctorId)),
-    getExtraInfoDoctor: (doctorId) => dispatch(actions.getExtraInfoDoctor(doctorId))
-  };
+  return {};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DoctorExtraInfo);

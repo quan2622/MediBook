@@ -1,5 +1,6 @@
 .doctor-extra-info-container {
-  padding-left: 20px;
+  // padding-left: 10px;
+  // padding-right: 10px;
   .content-up {
     .text-address {
       text-transform: uppercase;
@@ -66,4 +67,10 @@
       }
     }
   }
+}
+
+.doctor-extra-info-nodata {
+  font-size: 16px;
+  font-weight: 500;
+  color: #a9a9a9;
 }
