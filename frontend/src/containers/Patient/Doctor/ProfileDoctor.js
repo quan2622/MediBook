@@ -8,6 +8,7 @@ import _ from "lodash";
 import { NumericFormat } from 'react-number-format';
 import moment from "moment";
 import 'moment/min/locales';
+import userService from "../../../services/user.service";
 
 class ProfileDoctor extends Component {
   constructor(props) {
@@ -18,20 +19,27 @@ class ProfileDoctor extends Component {
   }
 
   componentDidMount() {
-    const { doctorId, getProfileDoctor } = this.props;
+    const { doctorId } = this.props;
     if (doctorId) {
-      getProfileDoctor(doctorId);
+      this.handleGetProfileDoctor(doctorId);
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.doctorId !== this.props.doctorId) {
-      this.props.getProfileDoctor(this.props.doctorId);
-    }
-    if (prevProps.profileDoctor !== this.props.profileDoctor) {
-      this.setState({ dataProfile: this.props.profileDoctor })
+      this.handleGetProfileDoctor(this.props.doctorId);
     }
   }
+
+  handleGetProfileDoctor = async (doctorId) => {
+    const res = await userService.getProfileDoctor(doctorId);
+    if (res.EC === 0 && res.profile) {
+      this.setState({ dataProfile: res.profile })
+    } else {
+      this.setState({ dataProfile: {} })
+    }
+  }
+
 
   renderTimeBooking = (props) => {
     const { dataSchedule } = props;
@@ -65,7 +73,7 @@ class ProfileDoctor extends Component {
   }
 
   render() {
-    console.log("Check data schedule: ", this.props.dataSchedule)
+    console.log("Check data profile: ", this.state.dataProfile)
     const { language, isShowDescription, isShowAddressClinic, dataSchedule } = this.props;
     const { dataProfile } = this.state;
     if (_.isEmpty(dataProfile)) {
@@ -126,10 +134,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    getDetailDoctor: (doctorId) => dispatch(actions.getDetailDoctor(doctorId)),
-    getProfileDoctor: (doctorId) => dispatch(actions.getProfileDoctor(doctorId))
-  };
+  return {};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileDoctor);

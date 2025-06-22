@@ -4,7 +4,7 @@
     padding: 10px 0 0;
     gap: 12px;
     .profile-left {
-      min-width: 13%;
+      min-width: 16%;
       height: 100px;
       background-position: center;
       background-repeat: no-repeat;
@@ -29,6 +29,7 @@
         padding-top: 12px;
       }
       .description-doctor {
+        margin-bottom: 0;
         text-align: justify;
         font-size: 13px;
         font-weight: 500;
