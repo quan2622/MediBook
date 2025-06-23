@@ -153,6 +153,15 @@ const getAllSpecialty = () => {
   }
 }
 
+const getDetailSpecialty = (specialtyId, location) => {
+  try {
+    return axios.get(`/api/get-detail-specialty?id=${specialtyId}&location=${location}`);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
 const userService = {
   handleLogin,
   getAllUser,
@@ -172,7 +181,8 @@ const userService = {
   verifyBooking,
   getDataBooking,
   createNewSpecialty,
-  getAllSpecialty
+  getAllSpecialty,
+  getDetailSpecialty
 };
 
 export default userService;

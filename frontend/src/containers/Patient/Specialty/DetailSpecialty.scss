@@ -1,7 +1,12 @@
 .detail-specialty-container {
   margin: 10px 0;
   .specialty-description {
-    height: 200px;
+    min-height: 200px;
+    margin: 0 110px;
+    padding: 20px 0 30px;
+  }
+  .search-sp-doctor {
+    max-width: 200px;
   }
   .list-doctor-container {
     display: flex;

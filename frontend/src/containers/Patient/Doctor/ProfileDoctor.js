@@ -56,11 +56,11 @@ class ProfileDoctor extends Component {
         <>
           <div className="schdeule-container">
             <span>
-              <i class="fas fa-clock"></i>
+              <i className="fas fa-clock"></i>
               {language === LANGUAGES.VI ? scheduleData.valueVi : scheduleData.valueEn}
             </span>
             <span>
-              <i class="fas fa-calendar-alt"></i>
+              <i className="fas fa-calendar-alt"></i>
               {date}
             </span>
           </div>
@@ -73,7 +73,7 @@ class ProfileDoctor extends Component {
   }
 
   render() {
-    console.log("Check data profile: ", this.state.dataProfile)
+    // console.log("Check data profile: ", this.state.dataProfile)
     const { language, isShowDescription, isShowAddressClinic, dataSchedule } = this.props;
     const { dataProfile } = this.state;
     if (_.isEmpty(dataProfile)) {
@@ -89,24 +89,24 @@ class ProfileDoctor extends Component {
           <div className="profile-left" style={{ backgroundImage: `url(${dataProfile.image})` }} ></div>
           <div className="profile-right">
             <h1 className="name-doctor">{language === LANGUAGES.VI ? nameVi : nameEn}</h1>
-            <p className="description-doctor">
-              {isShowDescription === true ?
-                <p className="description-doctor">{dataProfile.markdown_data.description}</p>
-                :
-                <>
-                  <this.renderTimeBooking dataSchedule={dataSchedule} />
-                </>
-              }
-              {isShowAddressClinic === true &&
-                <>
-                  <span><FormattedMessage id="patient.bookingModal.clinic-address" /></span> {`${dataProfile.doctor_info.nameClinic} - ${dataProfile.doctor_info.addressClinic}`}
-                </>
-              }
-            </p>
+            {/* <p className="description-doctor"> */}
+            {isShowDescription === true ?
+              <p className="description-doctor">{dataProfile.markdown_data.description}</p>
+              :
+              <>
+                <this.renderTimeBooking dataSchedule={dataSchedule} />
+              </>
+            }
+            {isShowAddressClinic === true &&
+              <>
+                <span><FormattedMessage id="patient.bookingModal.clinic-address" /></span> {`${dataProfile.doctor_info.nameClinic} - ${dataProfile.doctor_info.addressClinic}`}
+              </>
+            }
+            {/* </p> */}
           </div>
         </div>
         <div className="price">
-          <i class="fas fa-flag fa-lg"></i>
+          <i className="fas fa-flag fa-lg"></i>
           {language === LANGUAGES.VI ?
             <span>
               <FormattedMessage id="patient.bookingModal.price" />&nbsp;
