@@ -329,15 +329,18 @@ export const getRequiredDoctorInfo = () => {
       let resPayment = await userService.getAllCodeService("PAYMENT");
       let resProvince = await userService.getAllCodeService("PROVINCE");
       let resSpecialty = await userService.getAllSpecialty();
+      let resClinic = await userService.getAllClinic();
       if (resPrice && resPrice.EC === 0
         && resPayment && resPayment.EC === 0
         && resProvince && resProvince.EC === 0
+        && resClinic && resClinic.EC === 0
       ) {
         const data = {
           resPrice: resPrice.data,
           resPayment: resPayment.data,
           resProvince: resProvince.data,
           resSpecialty: resSpecialty.data,
+          resClinic: resClinic.data,
         }
         dispatch(getRequiredDoctorInfoSuccess(data));
       } else dispatch(fetchGenderFailed());

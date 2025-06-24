@@ -161,6 +161,30 @@ const getDetailSpecialty = (specialtyId, location) => {
   }
 }
 
+const createNewClinic = (payload) => {
+  try {
+    return axios.post("/api/create-new-clinic", payload);
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const getAllClinic = () => {
+  try {
+    return axios.get(`/api/get-all-clinic`);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+const getDetailClinic = (clinicId) => {
+  try {
+    return axios.get(`/api/get-detail-clinic?id=${clinicId}`);
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 const userService = {
   handleLogin,
@@ -182,7 +206,10 @@ const userService = {
   getDataBooking,
   createNewSpecialty,
   getAllSpecialty,
-  getDetailSpecialty
+  getDetailSpecialty,
+  createNewClinic,
+  getAllClinic,
+  getDetailClinic,
 };
 
 export default userService;
