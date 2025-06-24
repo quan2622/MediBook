@@ -91,7 +91,7 @@ const createNewDetailDoctor = (payload) => {
           description: payload.description,
           doctorId: payload.doctorId,
           specialtyId: +payload.selectedSpecialty,
-          clinicId: payload.selectedClinic,
+          clinicId: +payload.selectedClinic,
         })
       } else if (payload.action === "EDIT") {
         const res = await db.Markdown.update(
@@ -100,7 +100,7 @@ const createNewDetailDoctor = (payload) => {
             contentMarkdown: payload.contentMarkdown,
             description: payload.description,
             specialtyId: +payload.selectedSpecialty,
-            clinicId: payload.selectedClinic,
+            clinicId: +payload.selectedClinic,
           },
           { where: { doctorId: payload.doctorId } }
         )
