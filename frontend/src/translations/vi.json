@@ -94,6 +94,10 @@
             "clinic-address": "Địa chỉ phòng khám:",
             "price-booking": "Miễn phí đặt lịch",
             "price": "Giá khám:"
+        },
+        "content-collapse": {
+            "hidden-detail": "Thu gọn",
+            "show-detail": "Hiện thêm"
         }
     },
     "admin": {

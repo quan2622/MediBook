@@ -157,7 +157,7 @@ class BookingModal extends Component {
           </ModalHeader>
           <ModalBody className="booking-modal-body">
             <div className="doctor-info">
-              <ProfileDoctor doctorId={doctorId} isShowDescription={false} isShowAddressClinic={true} dataSchedule={dataSchedule} />
+              <ProfileDoctor doctorId={doctorId} isShowDescription={false} isShowAddressClinic={true} dataSchedule={dataSchedule} isShowLinkDetail={false} isShowPrice={true} />
             </div>
 
             <div className="row pt-3">

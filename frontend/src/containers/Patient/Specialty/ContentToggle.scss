@@ -1,0 +1,63 @@
+.collapsed-content {
+  min-height: 300px;
+  overflow: hidden;
+  position: relative;
+  transition: height 0.3s ease-in-out;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(to top, white, rgba(255, 255, 255, 0));
+    pointer-events: none;
+  }
+}
+
+.expanded-content {
+  min-height: auto;
+  transition: height 0.3s ease-in-out;
+
+  &::after {
+    display: none;
+  }
+}
+
+.btn-collapse {
+  border: none;
+  background: transparent;
+  outline: none;
+  color: #49bce2;
+  font-size: 16px;
+
+  &:hover {
+    text-decoration: underline;
+    color: #40bce8;
+  }
+}
+
+.collapse-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+  .bg-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    opacity: 0.1;
+    z-index: 0;
+  }
+
+  .content-text {
+    position: relative;
+    z-index: 1;
+  }
+}

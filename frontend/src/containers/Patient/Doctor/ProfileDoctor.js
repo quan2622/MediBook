@@ -9,6 +9,7 @@ import { NumericFormat } from 'react-number-format';
 import moment from "moment";
 import 'moment/min/locales';
 import userService from "../../../services/user.service";
+import { Link } from "react-router-dom/cjs/react-router-dom";
 
 class ProfileDoctor extends Component {
   constructor(props) {
@@ -54,12 +55,12 @@ class ProfileDoctor extends Component {
       const { scheduleData } = dataSchedule;
       return (
         <>
-          <div className="schdeule-container">
-            <span>
+          <div className="schdedule-container">
+            <span className="schedule-time">
               <i className="fas fa-clock"></i>
               {language === LANGUAGES.VI ? scheduleData.valueVi : scheduleData.valueEn}
             </span>
-            <span>
+            <span className="schedule-date">
               <i className="fas fa-calendar-alt"></i>
               {date}
             </span>
@@ -74,7 +75,7 @@ class ProfileDoctor extends Component {
 
   render() {
     // console.log("Check data profile: ", this.state.dataProfile)
-    const { language, isShowDescription, isShowAddressClinic, dataSchedule } = this.props;
+    const { language, isShowDescription, isShowAddressClinic, dataSchedule, isShowLinkDetail, isShowPrice, doctorId, isSpecialtyPage } = this.props;
     const { dataProfile } = this.state;
     if (_.isEmpty(dataProfile)) {
       return (
@@ -89,9 +90,8 @@ class ProfileDoctor extends Component {
           <div className="profile-left" style={{ backgroundImage: `url(${dataProfile.image})` }} ></div>
           <div className="profile-right">
             <h1 className="name-doctor">{language === LANGUAGES.VI ? nameVi : nameEn}</h1>
-            {/* <p className="description-doctor"> */}
             {isShowDescription === true ?
-              <p className="description-doctor">{dataProfile.markdown_data.description}</p>
+              <p className={`description-doctor ${isSpecialtyPage ? "specialty-page" : ""}`}>{dataProfile.markdown_data.description}</p>
               :
               <>
                 <this.renderTimeBooking dataSchedule={dataSchedule} />
@@ -102,23 +102,31 @@ class ProfileDoctor extends Component {
                 <span><FormattedMessage id="patient.bookingModal.clinic-address" /></span> {`${dataProfile.doctor_info.nameClinic} - ${dataProfile.doctor_info.addressClinic}`}
               </>
             }
-            {/* </p> */}
           </div>
         </div>
-        <div className="price">
-          <i className="fas fa-flag fa-lg"></i>
-          {language === LANGUAGES.VI ?
-            <span>
-              <FormattedMessage id="patient.bookingModal.price" />&nbsp;
-              <NumericFormat value={dataProfile?.doctor_info?.price_data.valueVi} thousandSeparator="," suffix=" VNĐ" displayType="text" />
-            </span>
-            :
-            <span>
-              <FormattedMessage id="patient.bookingModal.price" />&nbsp;
-              <NumericFormat value={dataProfile?.doctor_info?.price_data.valueEn} thousandSeparator="," suffix=" $" displayType="text" />
-            </span>
-          }
-        </div>
+        {isShowPrice &&
+          <div className="price">
+            <i className="fas fa-flag fa-lg"></i>
+            {language === LANGUAGES.VI ?
+              <span>
+                <FormattedMessage id="patient.bookingModal.price" />&nbsp;
+                <NumericFormat value={dataProfile?.doctor_info?.price_data.valueVi} thousandSeparator="," suffix=" VNĐ" displayType="text" />
+              </span>
+              :
+              <span>
+                <FormattedMessage id="patient.bookingModal.price" />&nbsp;
+                <NumericFormat value={dataProfile?.doctor_info?.price_data.valueEn} thousandSeparator="," suffix=" $" displayType="text" />
+              </span>
+            }
+          </div>
+        }
+        {
+          isShowLinkDetail &&
+          <div className="btn-detail-doctor">
+            <Link to={`/detail/${doctorId}`}>Xem thêm</Link>
+          </div>
+
+        }
       </div>
     );
 

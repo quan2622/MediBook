@@ -54,6 +54,7 @@ class DoctorExtraInfo extends Component {
       <div className="doctor-extra-info-container">
         <div className="content-up">
           <div className="text-address">
+            <i class="fas fa-map-marker-alt"></i>
             <FormattedMessage id="patient.extra-info.text-address" />
           </div>
           <div className="name-clinic">{extraInfo?.nameClinic || ""}</div>

@@ -1,5 +1,5 @@
 .doctor-schedule-container {
-  height: 100%;
+  height: auto;
 
   .all-schedule {
     .custom__control {
@@ -26,6 +26,10 @@
     .text-calender {
       color: #333;
       margin: 14px 0;
+      text-decoration: underline;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       i {
         margin-right: 5px;
       }

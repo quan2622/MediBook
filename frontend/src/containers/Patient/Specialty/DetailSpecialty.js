@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, lazy, Suspense } from 'react';
 import { connect } from 'react-redux';
 import "./DetailSpecialty.scss"
 import * as actions from "../../../store/actions"
@@ -12,6 +12,9 @@ import { toast } from "react-toastify";
 import _ from "lodash";
 import Select from 'react-select'
 import { LANGUAGES } from "../../../utils";
+import ContentToggle from "./ContentToggle";
+
+const BoxDoctor = lazy(() => import("./BoxDoctor"))
 
 class DetailSpecialty extends Component {
   constructor(props) {
@@ -20,7 +23,8 @@ class DetailSpecialty extends Component {
       arrDoctorId: [],
       dataDetailSpecialty: {},
       locations: [],
-      selectedOption: ""
+      selectedOption: "",
+      listProvince: []
     }
   }
 
@@ -39,6 +43,7 @@ class DetailSpecialty extends Component {
         this.setState({
           dataDetailSpecialty: res.data,
           arrDoctorId: arr,
+          listProvince: listProvince.data
         });
       } else {
         toast.warn(res.EM);
@@ -47,12 +52,15 @@ class DetailSpecialty extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-
+    if (prevProps.language !== this.props.language) {
+      this.buildDataSelect(this.state.listProvince);
+    }
   }
 
   buildDataSelect = (payload) => {
     const { language } = this.props;
     const data = [];
+    data.push({ label: language === LANGUAGES.VI ? "Tất cả" : "All", value: "ALL" });
     payload.forEach(item => {
       let objectSelect = {};
       objectSelect.label = language === LANGUAGES.VI ? item.valueVi : item.valueEn;
@@ -60,12 +68,35 @@ class DetailSpecialty extends Component {
       data.push(objectSelect);
     })
     if (data && data.length > 0) {
-      this.setState({ locations: data })
+      this.setState({
+        locations: data,
+        selectedOption: data[0],
+      });
+      this.handleGetDoctorByProvince(data[0].value);
+    }
+  }
+
+  handleGetDoctorByProvince = async (type) => {
+    const { specialtyId } = this.props.match.params;
+
+    const res = await userService.getDetailSpecialty(specialtyId, type);
+
+    if (res && res.EC === 0) {
+      let arr = [];
+      if (!_.isEmpty(res.data.doctorInfos)) {
+        arr = res.data.doctorInfos.map(item => item.doctorId);
+      }
+      this.setState({
+        arrDoctorId: arr,
+      });
+    } else {
+      toast.warn(res.EM);
     }
   }
 
   handleOnchangeSelect = (select) => {
     this.setState({ selectedOption: select });
+    this.handleGetDoctorByProvince(select.value);
   }
 
   render() {
@@ -76,7 +107,11 @@ class DetailSpecialty extends Component {
         <HomeHeader />
         <div className="detail-specialty-container">
           {dataDetailSpecialty && !_.isEmpty(dataDetailSpecialty) &&
-            <div className="specialty-description" dangerouslySetInnerHTML={{ __html: dataDetailSpecialty?.descriptionHTML }}>
+            <div className="specialty-description">
+              <ContentToggle initHeight={300} bgImgae={dataDetailSpecialty?.image}>
+                <div dangerouslySetInnerHTML={{ __html: dataDetailSpecialty?.descriptionHTML }}>
+                </div>
+              </ContentToggle>
             </div >
           }
           <div className="list-doctor-container">
@@ -85,27 +120,19 @@ class DetailSpecialty extends Component {
                 <Select options={locations} value={selectedOption} onChange={this.handleOnchangeSelect} />
               }
             </div>
-            {arrDoctorId && arrDoctorId.length > 0 &&
-              arrDoctorId.map((item, index) => (
-                <div className="specialty-each-doctor" key={index} >
-                  <div className="content-left">
-                    <ProfileDoctor doctorId={item} isShowDescription={true} isShowAddressClinic={false}
-                    />
-                  </div>
-                  <div className="content-right">
-                    <DoctorSchedule doctorId={item} />
-                    <DoctorExtraInfo doctorId={item} />
-                  </div>
-                </div>
-              ))
-            }
+            <Suspense fallback={<div>Đang tải thông tin bác sĩ...</div>}>
+              {arrDoctorId?.map((doctorId, index) => (
+                <BoxDoctor key={index} doctorId={doctorId} />
+              ))}
+            </Suspense>
           </div>
-        </div>
+        </div >
       </>
     );
   }
 
 }
+
 
 const mapStateToProps = state => {
   return {

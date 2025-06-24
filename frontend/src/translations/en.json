@@ -94,6 +94,10 @@
             "clinic-address": "Clinic's address:",
             "price-booking": "Free Booking",
             "price": "Price:"
+        },
+        "content-collapse": {
+            "hidden-detail": "Hidden detail",
+            "show-detail": "Show more"
         }
     },
     "admin": {
