@@ -1,12 +1,7 @@
 import React, { Component, lazy, Suspense } from 'react';
 import { connect } from 'react-redux';
 import "./DetailSpecialty.scss"
-import * as actions from "../../../store/actions"
-import { FormattedMessage } from "react-intl";
 import HomeHeader from "../../HomePage/HomeHeader";
-import DoctorSchedule from "../Doctor/DoctorSchedule";
-import DoctorExtraInfo from "../Doctor/DoctorExtraInfo";
-import ProfileDoctor from "../Doctor/ProfileDoctor";
 import userService from "../../../services/user.service";
 import { toast } from "react-toastify";
 import _ from "lodash";

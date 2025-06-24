@@ -1,0 +1,94 @@
+.detail-clinic-container {
+  .clinic-banner {
+    height: 350px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    position: relative;
+    .clinic-banner-info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 36px;
+      background-color: #33333394;
+      box-shadow: 1px 1px 10px #eee;
+      border-radius: 16px;
+      max-width: 55%;
+      width: 55%;
+      position: absolute;
+      bottom: -50px;
+      left: 50%;
+      translate: -50%;
+      .clinic-banner-info-image {
+        overflow: hidden;
+        border-radius: 16px;
+        box-shadow: 1px 1px 10px #eee;
+        img {
+          max-height: 100px;
+          max-width: 230px;
+          width: auto;
+          object-position: center;
+          object-fit: contain;
+        }
+      }
+      .clinic-banner-info-content {
+        color: white;
+        .info-name {
+          font-size: 18px;
+          font-weight: 600;
+        }
+        .info-address {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+  .detail-clinic-content {
+    padding-top: 90px;
+    background-color: #eee;
+    .clinic-description {
+      margin: 0 110px;
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    .list-doctor-container {
+      flex: 1;
+      display: flex;
+      gap: 20px;
+      flex-direction: column;
+      padding: 20px 90px;
+      background: #40bce8;
+
+      &.clinic-page {
+        padding-top: 60px;
+      }
+
+      .specialty-each-doctor {
+        display: flex;
+        overflow: hidden;
+        min-height: 300px;
+        padding: 22px 28px;
+        border-radius: 18px;
+        background-color: white;
+        transition: box-shadow 0.4s ease;
+        border: 1px solid #fff;
+
+        &:hover {
+          border: 1px solid #fff258;
+          box-shadow: 1px 1px 18px #fff8a7;
+        }
+
+        .content-left {
+          width: 45%;
+          border-right: 1px solid #eee;
+        }
+        .content-right {
+          width: 55%;
+          display: flex;
+          flex-direction: column;
+          padding-left: 14px;
+        }
+      }
+    }
+  }
+}

@@ -68,14 +68,14 @@ class ManageDoctor extends Component {
         const resPrice = this.buildDataSelect(allRequiredData.resPrice, 'PRICE');
         const resProvince = this.buildDataSelect(allRequiredData.resProvince, 'PROVINCE');
         const resSpecialty = this.buildDataSelect(allRequiredData.resSpecialty, 'SPECIALTY');
-        // const resClinic = this.buildDataSelect(allRequiredData.resClinic, 'CLINIC'); // => modified build data?
+        const resClinic = this.buildDataSelect(allRequiredData.resClinic, 'CLINIC');
 
         this.setState({
           listPrice: resPrice,
           listProvince: resProvince,
           listPayment: resPayment,
           listSpecialty: resSpecialty,
-          // listClinic: resClinic,
+          listClinic: resClinic,
         });
       }
 
@@ -97,7 +97,7 @@ class ManageDoctor extends Component {
             selectedPayment: listPayment.find(item => item.value === doctorInfo.paymentId),
             selectedProvince: listProvince.find(item => item.value === doctorInfo.provinceId),
             selectedSpecialty: listSpecialty.find(item => item.value === doctorInfo.specialtyId),
-            // selectedClinic: listClinic.find(item => item.value === doctorInfo.clinicId),  // Clinic data don't create
+            selectedClinic: listClinic.find(item => item.value === doctorInfo.clinicId),
             nameClinic: doctorInfo.nameClinic,
             addressClinic: doctorInfo.addressClinic,
             note: doctorInfo?.note || "",
@@ -123,14 +123,14 @@ class ManageDoctor extends Component {
       const resPrice = this.buildDataSelect(allRequiredData.resPrice, 'PRICE');
       const resProvince = this.buildDataSelect(allRequiredData.resProvince, 'PROVINCE');
       const resSpecialty = this.buildDataSelect(allRequiredData.resSpecialty, 'SPECIALTY');
-      // const resClinic = this.buildDataSelect(allRequiredData.resClinic, 'CLINIC'); // => modified build data?
+      const resClinic = this.buildDataSelect(allRequiredData.resClinic, 'CLINIC');
 
       this.setState({
         listPrice: resPrice,
         listProvince: resProvince,
         listPayment: resPayment,
         listSpecialty: resSpecialty,
-        // listClinic: resClinic,
+        listClinic: resClinic,
       })
     }
   }
@@ -156,7 +156,7 @@ class ManageDoctor extends Component {
           object.value = item.keyMap;
 
           result.push(object);
-        } else if (type === 'SPECIALTY') {
+        } else if (type === 'SPECIALTY' || type === 'CLINIC') {
           let object = {};
           object.label = item.name;
           object.value = item.id;
@@ -178,7 +178,7 @@ class ManageDoctor extends Component {
   handleSaveContentMarkdown = () => {
     console.log("Check state: ", this.state);
     const { hasData } = this.state;
-    if (!this.state.contentHTML || !this.state.contentMarkdown || !this.state.description || !this.state.selectedDoctor.value || !this.state.selectedPrice || !this.state.selectedPayment || !this.state.selectedSpecialty || !this.state.selectedProvince || !this.state.nameClinic || !this.state.addressClinic) { // missing  !this.state.selectedClinic ||
+    if (!this.state.contentHTML || !this.state.contentMarkdown || !this.state.description || !this.state.selectedDoctor.value || !this.state.selectedPrice || !this.state.selectedPayment || !this.state.selectedSpecialty || !this.state.selectedProvince || !this.state.selectedClinic || !this.state.nameClinic || !this.state.addressClinic) {
       toast.warn("Missing required params");
       return;
     }
@@ -192,7 +192,7 @@ class ManageDoctor extends Component {
       selectedPayment: this.state.selectedPayment.value,
       selectedProvince: this.state.selectedProvince.value,
       selectedSpecialty: this.state.selectedSpecialty.value,
-      selectedClinic: this.state.selectedClinic.value ? this.state.selectedClinic.value : "0", // Clinic data don't create
+      selectedClinic: this.state?.selectedClinic?.value ?? "0",
       nameClinic: this.state.nameClinic,
       addressClinic: this.state.addressClinic,
       note: this.state.note,
