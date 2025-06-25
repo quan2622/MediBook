@@ -50,6 +50,9 @@ export const doctorMenu = [
             { //Quản lý kế hoạch của bác sĩ
                 name: 'menu.doctor.manage-schedule', link: "/doctor/manage-schedule"
             },
+            { //Quản lý kế danh sách bệnh nhân đặt lịch khám bệnh
+                name: 'menu.doctor.manage-patient', link: "/doctor/manage-patient"
+            },
         ]
     }
 ];
