@@ -18,7 +18,7 @@ const buildURL = (doctorId, token) => {
 const postBookingAppoinment = (dataBooking) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (!dataBooking.email || !dataBooking.doctorId || !dataBooking.date || !dataBooking.timeType) {
+      if (!dataBooking.email || !dataBooking.doctorId || !dataBooking.date || !dataBooking.timeType || !dataBooking.gender || !dataBooking.address || !dataBooking.phoneNumber) {
         resolve({ EC: 1, EM: "Missing required params" });
       } else {
         if (!isValidateEmail(dataBooking.email)) {
@@ -37,6 +37,9 @@ const postBookingAppoinment = (dataBooking) => {
           defaults: {
             email: dataBooking.email,
             roleId: "R3",
+            address: dataBooking.address,
+            gender: dataBooking.gender,
+            phoneNumber: dataBooking.phoneNumber,
             firstName: isVi ? lastPart : firstPart,
             lastName: isVi ? firstPart : lastPart,
           }

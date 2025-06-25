@@ -121,6 +121,21 @@ const getProfileDoctorById = async (req, res) => {
   }
 }
 
+// GET /api/get-list-patient-for-doctor
+const getListPatientForDoctor = async (req, res) => {
+  try {
+    const { doctorId, date } = req.query;
+    const data = await doctorService.getListPatientForDoctor(doctorId, date);
+    return res.status(200).json(data);
+  } catch (error) {
+    console.log("Error when get list patient for doctor: ", error);
+    return res.status(500).json({
+      EC: 1,
+      EM: "Error get schedule!"
+    })
+  }
+}
+
 module.exports = {
   getTopDoctorHome,
   getAllDoctor,
@@ -130,4 +145,5 @@ module.exports = {
   getScheduleDoctor,
   getExtraInfoDoctorById,
   getProfileDoctorById,
+  getListPatientForDoctor
 }
