@@ -7,5 +7,25 @@
   }
   .manage-patient-body {
     padding: 0 20px;
+
+    .table-patient-booking {
+      .mp-btn-confirm {
+        border: none;
+        outline: none;
+        margin-right: 10px;
+        height: 30px;
+        border-radius: 8px;
+        background: orange;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+div._loading_overlay_wrapper {
+  position: unset;
+
+  ._loading_overlay_overlay {
+    z-index: 9999999999;
   }
 }

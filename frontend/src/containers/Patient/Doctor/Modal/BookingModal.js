@@ -128,7 +128,7 @@ class BookingModal extends Component {
       email: this.state.email,
       address: this.state.address,
       birthDay: this.state.birthDay,
-      date: moment().startOf('day').valueOf(),
+      date: dataSchedule.date,
       gender: this.state.gender.value,
       doctorId: this.state.doctorId,
       reason: this.state.reason,

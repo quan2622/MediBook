@@ -186,6 +186,22 @@ const getDetailClinic = (clinicId) => {
   }
 }
 
+const getListPatientForDoctor = (doctorId, date) => {
+  try {
+    return axios.get(`/api/get-list-patient-for-doctor?doctorId=${doctorId}&date=${date}`);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const sendRemedy = (payload) => {
+  try {
+    return axios.post(`/api/send-remedy`, payload);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 const userService = {
   handleLogin,
   getAllUser,
@@ -210,6 +226,8 @@ const userService = {
   createNewClinic,
   getAllClinic,
   getDetailClinic,
+  getListPatientForDoctor,
+  sendRemedy,
 };
 
 export default userService;
