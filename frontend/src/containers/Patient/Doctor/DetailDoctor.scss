@@ -35,6 +35,9 @@
         font-size: 14px;
         font-weight: 500;
         color: #666;
+        .like-share-plugin {
+          margin: 10px 0 20px;
+        }
       }
     }
   }
@@ -71,5 +74,6 @@
     }
   }
   .comment-doctor {
+    padding: 16px 100px;
   }
 }

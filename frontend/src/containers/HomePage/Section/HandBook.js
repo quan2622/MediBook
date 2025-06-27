@@ -20,7 +20,7 @@ class HandBook extends Component {
                   <div className="bg-image">
                     <img src={handbook} />
                   </div>
-                  <h3>Hệ thống y tế thu cúc 1</h3>
+                  <h3>Cẩm nang 1</h3>
                 </div>
               </div>
               <div className="section-customize">
@@ -28,7 +28,7 @@ class HandBook extends Component {
                   <div className="bg-image">
                     <img src={handbook} />
                   </div>
-                  <h3>Hệ thống y tế thu cúc 2</h3>
+                  <h3>Cẩm nang 2</h3>
                 </div>
               </div>
               <div className="section-customize">
@@ -36,7 +36,7 @@ class HandBook extends Component {
                   <div className="bg-image">
                     <img src={handbook} />
                   </div>
-                  <h3>Hệ thống y tế thu cúc 3</h3>
+                  <h3>Cẩm nang 3</h3>
                 </div>
               </div>
               <div className="section-customize">
@@ -44,7 +44,7 @@ class HandBook extends Component {
                   <div className="bg-image">
                     <img src={handbook} />
                   </div>
-                  <h3>Hệ thống y tế thu cúc 4</h3>
+                  <h3>Cẩm nang 4</h3>
                 </div>
               </div>
               <div className="section-customize">
@@ -52,7 +52,7 @@ class HandBook extends Component {
                   <div className="bg-image">
                     <img src={handbook} />
                   </div>
-                  <h3>Hệ thống y tế thu cúc 5</h3>
+                  <h3>Cẩm nang 5</h3>
                 </div>
               </div>
               <div className="section-customize">
@@ -60,7 +60,7 @@ class HandBook extends Component {
                   <div className="bg-image">
                     <img src={handbook} />
                   </div>
-                  <h3>Hệ thống y tế thu cúc 6</h3>
+                  <h3>Cẩm nang 6</h3>
                 </div>
               </div>
             </Slider>
