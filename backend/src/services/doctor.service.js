@@ -1,6 +1,7 @@
 const { where, Op } = require("sequelize");
 const db = require("../models");
 import _ from 'lodash'
+import emailService from "./email.service";
 require('dotenv').config();
 
 const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE;
@@ -374,6 +375,39 @@ const getListPatientForDoctor = (doctorId, date) => {
   })
 }
 
+
+const sendRemedy = (payload) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!payload.doctorId || !payload.email || !payload.patientId || !payload.timeType) {
+        return resolve({ EC: 1, EM: "Missing required params" });
+      } else {
+        const update_appoinment = await db.Booking.update(
+          {
+            statusId: "S3",
+          },
+          {
+            where: {
+              doctorId: payload.doctorId,
+              patientId: payload.patientId,
+              timeType: payload.timeType,
+              statusId: "S2"
+            },
+          },
+        )
+        if (update_appoinment[0] !== 0) {
+          const patient = await db.User.findOne({ where: { id: payload.patientId } });
+          await emailService.sendAttatchment(patient.email, payload);
+
+          resolve({ EC: 0, EM: "Send remery success" });
+        } else resolve({ EC: 2, EM: "Not found data booking" });
+      }
+    } catch (error) {
+      reject(error);
+    }
+  })
+}
+
 module.exports = {
   getTopDoctorHome: getTopDoctorHome,
   getAllDoctor: getAllDoctor,
@@ -385,4 +419,5 @@ module.exports = {
   getExtraInfoDoctorById: getExtraInfoDoctorById,
   getProfileDoctorById: getProfileDoctorById,
   getListPatientForDoctor: getListPatientForDoctor,
+  sendRemedy: sendRemedy,
 }

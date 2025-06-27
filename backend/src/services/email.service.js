@@ -118,6 +118,108 @@ let buildBodyEmail = (language, dataSend) => {
 
 }
 
-module.exports = {
+const buildBodyRemedy = (language, dataSend) => {
+  let res = "";
+  if (language === 'vi') {
+    res = `
+      <div>
+        <h2 style="color: #2b7de9; text-align: center;">MediBook - Gửi đơn thuốc cho bệnh nhân</h2>
+  
+        <div style="width: 100%; text-align: center;">
+          <div style="display: inline-block; text-align: left; max-width: 600px; width: 100%;">
+            <p>Xin chào <strong>${dataSend.patientName}</strong>, bạn vừa hoàn tất buổi khám với bác sĩ.</p>
+  
+            <p>Chúng tôi gửi kèm theo đơn thuốc và hướng dẫn sử dụng để bạn tiện theo dõi và điều trị. Vui lòng kiểm tra file đính kèm trong email này.</p>
+  
+            <p>Nếu bạn có bất kỳ câu hỏi nào liên quan đến đơn thuốc, hãy liên hệ với chúng tôi hoặc trực tiếp với bác sĩ điều trị.</p>
+  
+            <p style="margin-top: 20px;">Chúc bạn mau chóng hồi phục sức khỏe!</p>
+          </div>
+        </div>
+  
+        <p style="margin-top: 30px; font-size: 13px; color: #666; text-align: center;">
+          Trân trọng,<br />
+          Đội ngũ MediBook<br />
+          © 2025 MediBook. All rights reserved.
+        </p>
+      </div>
+    `;
+  } else {
+    res = `
+      <div>
+        <h2 style="color: #2b7de9; text-align: center;">MediBook - Prescription from your doctor</h2>
+  
+        <div style="width: 100%; text-align: center;">
+          <div style="display: inline-block; text-align: left; max-width: 600px; width: 100%;">
+            <p>Dear <strong>${dataSend.patientName}</strong>!, You have just completed your appointment.</p>
+  
+            <p>We are sending you the prescription and usage instructions in the attached file for your convenience and treatment follow-up.</p>
+  
+            <p>If you have any questions regarding the prescription, please contact us or your doctor directly.</p>
+  
+            <p style="margin-top: 20px;">Wishing you a speedy recovery!</p>
+          </div>
+        </div>
+  
+        <p style="margin-top: 30px; font-size: 13px; color: #666; text-align: center;">
+          Best regards,<br />
+          MediBook Team<br />
+          © 2025 MediBook. All rights reserved.
+        </p>
+      </div>
+    `;
+  }
+
+  return res;
+
+}
+
+const sendAttatchment = async (receiver, dataSend) => {
+  const accessTokenObject = await oAuth2Client.getAccessToken();
+
+  const accessToken = accessTokenObject.token || accessTokenObject;
+
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      type: 'OAuth2',
+      user: process.env.EMAIL_APP,
+      clientId: CLIENT_ID,
+      clientSecret: CLIENT_SECRET,
+      refreshToken: REFRESH_TOKEN,
+      accessToken: accessToken,
+    },
+  });
+
+  const subject = dataSend.language === "vi" ? "📁 Thông tin khám bệnh" : "📁 Medical examination information";
+  const contentEmail = buildBodyRemedy(dataSend.language, dataSend);
+
+  const imageRecieved = dataSend.imageBase64;
+  const matches = imageRecieved.match(/^data:(image\/\w+);base64,(.+)$/);
+
+  const mimeType = matches[1];
+  const extension = mimeType.split('/')[1];
+  const base64Data = matches[2];
+
+  const info = await transporter.sendMail({
+    from: '"MediBook 🏥" <quanb2203527@student.ctu.edu.vn>',
+    to: receiver,
+    subject: subject,
+    html: contentEmail,
+    attachments: [
+      {
+        filename: `remedy-${dataSend.patientId}-${new Date().getTime()}.${extension}`,
+        content: base64Data,
+        encoding: "base64",
+        contentType: mimeType,
+      },
+    ]
+  });
+}
+
+export default {
   sendEmailBooking,
+  sendAttatchment,
 }

@@ -136,6 +136,20 @@ const getListPatientForDoctor = async (req, res) => {
   }
 }
 
+// GET /api/send-remedy
+const sendRemedy = async (req, res) => {
+  try {
+    const data = await doctorService.sendRemedy(req.body);
+    return res.status(200).json(data);
+  } catch (error) {
+    console.log("Error when update patient booking: ", error);
+    return res.status(500).json({
+      EC: 1,
+      EM: "Error get schedule!"
+    })
+  }
+}
+
 module.exports = {
   getTopDoctorHome,
   getAllDoctor,
@@ -145,5 +159,6 @@ module.exports = {
   getScheduleDoctor,
   getExtraInfoDoctorById,
   getProfileDoctorById,
-  getListPatientForDoctor
+  getListPatientForDoctor,
+  sendRemedy,
 }
