@@ -1,0 +1,48 @@
+"use strict";
+
+var _express = _interopRequireDefault(require("express"));
+var _home = _interopRequireDefault(require("../controllers/home.controller"));
+var _user = _interopRequireDefault(require("../controllers/user.controller"));
+var _doctor = _interopRequireDefault(require("../controllers/doctor.controller"));
+var _pateint = _interopRequireDefault(require("../controllers/pateint.controller"));
+var _specialty = _interopRequireDefault(require("../controllers/specialty.controller"));
+var _clinic = _interopRequireDefault(require("../controllers/clinic.controller"));
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+var router = _express["default"].Router();
+var initWebRoutes = function initWebRoutes(app) {
+  router.get("/", _home["default"].getHomePage);
+  router.get("/about", _home["default"].getAboutPage);
+  router.get("/crud", _home["default"].getCRUD);
+  router.post("/post-crud", _home["default"].postCRUD);
+  router.get("/get-crud", _home["default"].displayGetCRUD);
+  router.get("/edit-crud", _home["default"].getEditCRUD);
+  router.post("/put-crud", _home["default"].putCRUD);
+  router.get("/delete-crud", _home["default"].deleteCRUD);
+  router.post("/api/login", _user["default"].hanleLogin);
+  router.get("/api/get-all-user", _user["default"].getAllUser);
+  router.post("/api/create-user", _user["default"].createUser);
+  router.put("/api/edit-user", _user["default"].editUser);
+  router["delete"]("/api/delete-user", _user["default"].deleteUser);
+  router.get("/api/allcode", _user["default"].getAllCode);
+  router.get('/api/top-doctor-home', _doctor["default"].getTopDoctorHome);
+  router.get('/api/get-all-doctor', _doctor["default"].getAllDoctor);
+  router.post('/api/save-detail-doctor', _doctor["default"].createNewDetailDoctor);
+  router.get('/api/get-detail-doctor', _doctor["default"].getDetailDoctor);
+  router.post('/api/bulk-create-schedule', _doctor["default"].bulkCreateSchedule);
+  router.get('/api/get-schedule-doctor', _doctor["default"].getScheduleDoctor);
+  router.get('/api/get-extra-info-doctor-by-id/:doctorId', _doctor["default"].getExtraInfoDoctorById);
+  router.get('/api/get-profile-doctor-by-id/:doctorId', _doctor["default"].getProfileDoctorById);
+  router.get('/api/get-list-patient-for-doctor', _doctor["default"].getListPatientForDoctor);
+  router.post('/api/send-remedy', _doctor["default"].sendRemedy);
+  router.post('/api/post-booking-appoinment', _pateint["default"].postBookingAppoinment);
+  router.post('/api/verify-booking-appoinment', _pateint["default"].postVerifyBookingAppoinment);
+  router.get('/api/get-booking-appoinment/:token', _pateint["default"].getDataAppoinment);
+  router.post('/api/create-new-specialty', _specialty["default"].createNewSpecialty);
+  router.get('/api/get-all-specialty', _specialty["default"].getAllSpecialty);
+  router.get('/api/get-detail-specialty', _specialty["default"].getDetailSpecialty);
+  router.post('/api/create-new-clinic', _clinic["default"].createNewClinic);
+  router.get('/api/get-all-clinic', _clinic["default"].getAllClinic);
+  router.get('/api/get-detail-clinic', _clinic["default"].getDetailClinic);
+  return app.use("/", router);
+};
+module.exports = initWebRoutes;
