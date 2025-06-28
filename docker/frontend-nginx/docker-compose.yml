@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  nginx:
+    build: 
+      context: .
+    ports:
+      - 3000:80
+    volumes:
+      - ../../frontend/build:/usr/share/nginx/html
+
+    # docker compose -p bookingcare-nginx up -d
