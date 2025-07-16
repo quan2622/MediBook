@@ -6,6 +6,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 12345
-      MYSQL_DATABASE: quan-test
+      MYSQL_DATABASE: booking-care
+    command: --lower_case_table_names=1
     ports:
       - "3307:3306"
