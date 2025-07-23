@@ -202,7 +202,14 @@ const sendRemedy = (payload) => {
   }
 }
 
+const loginWithGoogle = (credentialResponse) => {
+  return axios.post('/api/auth/google', {
+    token: credentialResponse.credential
+  });
+}
+
 const userService = {
+  loginWithGoogle,
   handleLogin,
   getAllUser,
   createNewUser,

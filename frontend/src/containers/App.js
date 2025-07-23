@@ -6,7 +6,7 @@ import { history } from '../redux'
 import { Bounce, ToastContainer } from 'react-toastify';
 
 
-import { userIsAuthenticated, userIsNotAuthenticated } from '../hoc/authentication';
+import { userIsAuthenticated, userIsNotAuthenticated, adminIsNotAuthenticated, adminIsAuthenticated } from '../hoc/authentication';
 
 import { path } from '../utils'
 
@@ -22,6 +22,7 @@ import Doctor from "../routes/Doctor";
 import VerifyEmail from "./Patient/VerifyEmail";
 import DetailSpecialty from "./Patient/Specialty/DetailSpecialty";
 import DetailClinic from "./Patient/Clinic/DetailClinic";
+import LoginAdmin from "./Auth/LoginAdmin";
 
 class App extends Component {
 
@@ -53,13 +54,14 @@ class App extends Component {
                                 <Switch>
                                     <Route path={path.HOME} exact component={(Home)} />
                                     <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
-                                    <Route path={path.SYSTEM} component={userIsAuthenticated(System)} />
-                                    <Route path={path.DOCTOR} component={userIsAuthenticated(Doctor)} />
+                                    <Route path={path.LOGIN_ADMIN} component={adminIsNotAuthenticated(LoginAdmin)} />
+                                    <Route path={path.SYSTEM} component={adminIsAuthenticated(System)} />
+                                    <Route path={path.DOCTOR} component={adminIsAuthenticated(Doctor)} />
                                     <Route path={path.HOMEPAGE} component={HomePage} />
                                     <Route path={path.VERIFY_EMAIL_BOOKING} component={VerifyEmail} />
-                                    <Route path={path.DETAIL_DOCTOR} component={DetailDoctor} />
-                                    <Route path={path.DETAIL_SPECIALTY} component={DetailSpecialty} />
-                                    <Route path={path.DETAIL_CLINIC} component={DetailClinic} />
+                                    <Route path={path.DETAIL_DOCTOR} component={userIsAuthenticated(DetailDoctor)} />
+                                    <Route path={path.DETAIL_SPECIALTY} component={userIsAuthenticated(DetailSpecialty)} />
+                                    <Route path={path.DETAIL_CLINIC} component={userIsAuthenticated(DetailClinic)} />
                                 </Switch>
                             </CustomScrollbars>
                         </div>

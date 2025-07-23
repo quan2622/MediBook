@@ -33,6 +33,7 @@ class DoctorSchedule extends Component {
       isOpenModalBooking: false,
       dataScheduleBooking: {},
       scheduleDoctor: [],
+      isToday: false,
     }
   }
 
@@ -84,6 +85,13 @@ class DoctorSchedule extends Component {
     const { doctorId } = this.props;
     if (doctorId !== -1) {
       this.setState({ selectedOption: select });
+
+      if (select.value === (new Date()).setHours(0, 0, 0, 0)) {
+
+        this.setState({ isToday: true })
+      } else {
+        this.setState({ isToday: false });
+      }
       const res = await userService.fetchScheduleDoctor(doctorId, select.value);
       if (res && res.EC === 0) {
         this.setState({ scheduleDoctor: res.data })
@@ -101,6 +109,29 @@ class DoctorSchedule extends Component {
   handleClickScheduleTime = (data) => {
     this.setState({ dataScheduleBooking: data })
     this.toggleOpenModalBooking();
+  }
+
+  parseHourFromAnyFormat = (timeStr) => {
+    // Trường hợp có AM/PM
+    if (/(AM|PM)$/i.test(timeStr.trim())) {
+      const [time, meridiem] = timeStr.trim().split(" ");
+      let [hour] = time.split(":").map(Number);
+
+      if (/PM/i.test(meridiem) && hour !== 12) hour += 12;
+      if (/AM/i.test(meridiem) && hour === 12) hour = 0;
+
+      return hour;
+    }
+
+    // Trường hợp 24h: "13:00", "08:30"
+    const [hour] = timeStr.split(":").map(Number);
+    return hour;
+  }
+
+  isAfterCurrentHour = (timeStr) => {
+    const inputHour = this.parseHourFromAnyFormat(timeStr);
+    const currentHour = new Date().getHours();
+    return inputHour > currentHour;
   }
 
   render() {
@@ -133,9 +164,23 @@ class DoctorSchedule extends Component {
                       scheduleDoctor.map(item => {
                         const { scheduleData } = item
                         const time = language === LANGUAGES.VI ? scheduleData.valueVi : scheduleData.valueEn;
-                        return (
-                          <span className="box-time" key={item.id} onClick={() => this.handleClickScheduleTime(item)}>{time}</span>
-                        )
+                        const validate = this.isAfterCurrentHour(time);
+                        if (this.state.isToday) {
+                          return (
+                            <>
+                              {validate &&
+                                <span className="box-time" key={item.id} onClick={() => this.handleClickScheduleTime(item)}>{time}</span>
+                              }
+                            </>
+                          )
+                        } else {
+                          return (
+                            <>
+                              <span className="box-time" key={item.id} onClick={() => this.handleClickScheduleTime(item)}>{time}</span>
+                            </>
+                          )
+                        }
+
                       })
                     }
                   </div>

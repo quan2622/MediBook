@@ -10,14 +10,18 @@ import IntlProviderWrapper from "./hoc/IntlProviderWrapper";
 
 import { Provider } from 'react-redux';
 import reduxStore, { persistor } from './redux';
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const renderApp = () => {
     ReactDOM.render(
-        <Provider store={reduxStore}>
-            <IntlProviderWrapper>
-                <App persistor={persistor} />
-            </IntlProviderWrapper>
-        </Provider>,
+        <GoogleOAuthProvider clientId="461504149941-qf4up1agpgbsqnjvfum6skih2078ili6.apps.googleusercontent.com">
+            <Provider store={reduxStore}>
+                <IntlProviderWrapper>
+                    <App persistor={persistor} />
+                </IntlProviderWrapper>
+            </Provider>
+        </GoogleOAuthProvider>
+        ,
         document.getElementById('root')
     );
 };

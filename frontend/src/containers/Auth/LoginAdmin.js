@@ -8,7 +8,7 @@ import './Login.scss';
 import { FormattedMessage } from 'react-intl';
 import userService from "../../services/user.service";
 
-import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 
 class Login extends Component {
@@ -55,41 +55,14 @@ class Login extends Component {
     }
   }
 
-
-  handleLoginWithGoogleSuccess = async (credentialResponse) => {
-    const res = await userService.loginWithGoogle(credentialResponse);
-    if (res) {
-      if (res.EC === 0) {
-        this.props.userLoginSuccess(res.user);
-      } else {
-        this.setState({ EM: res.EM });
-      }
-    }
-  }
-
-  handleLoginWithGoogleError = () => {
-    console.log('login with google error')
-  }
-
-  renderCustomButton = (renderProps) => (
-    <button onClick={renderProps.onClick} disabled={renderProps.disabled} className="google-login-btn">
-      <img
-        src="https://developers.google.com/identity/images/g-logo.png"
-        alt="Google logo"
-        style={{ width: 20, marginRight: 10 }}
-      />
-      Login with Google
-    </button>
-  );
-
   render() {
 
     return (
       <div className="login-background">
-        <div className="login-container">
+        <div className="login-container login-container-admin">
           <div className="login-content row">
             <div className="col-12 text-login">
-              Login
+              Login Admin
             </div>
             <div className="col-12 form-group login-input">
               <span className="label-formLogin">User name</span>
@@ -118,22 +91,6 @@ class Login extends Component {
             </div>
             <div className="col-12">
               <span className="forgot-password">Forgot your password</span>
-            </div>
-            <div className="col-12 text-center mt-3">
-              <span className="text-other-login">or Login with:</span>
-            </div>
-            {/* <div className="col-12 social-login">
-              <i className="fab fa-google-plus-g google"></i>
-              <i className="fab fa-facebook-f facebook"></i>
-            </div> */}
-            <div className="col-12 social-login-new">
-              <GoogleLogin
-                onSuccess={this.handleLoginWithGoogleSuccess}
-                onError={this.handleLoginWithGoogleError}
-                useOneTap={false}
-                auto_select={false}
-                render={this.renderCustomButton}
-              />
             </div>
           </div>
         </div>

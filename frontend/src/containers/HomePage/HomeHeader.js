@@ -19,8 +19,15 @@ class HomeHeader extends Component {
     }
   }
 
+  handleLogin = () => {
+    if (this.props.history) {
+      this.props.history.push("/login");
+    }
+  }
+
   render() {
     let language = this.props.lang;
+    const { processLogout, isLoggedIn } = this.props
     return (
       <>
         <div className="home-header-container">
@@ -68,10 +75,23 @@ class HomeHeader extends Component {
               <div className={`language-en ${language === LANGUAGES.EN ? 'active' : ''}`}>
                 <span onClick={() => this.handleChangeLanguage(LANGUAGES.EN)}>EN</span>
               </div>
+              {isLoggedIn ?
+
+                <div className="btn btn-logout"
+                  onClick={processLogout}
+                  title="Log out">
+                  <i className="fas fa-sign-out-alt"></i>
+                </div>
+                :
+                <div className="btn btn-login" onClick={this.handleLogin}>
+                  <i class="far fa-user"></i>
+                </div>
+              }
             </div>
           </div>
         </div >
-        {this.props.isShowBanner &&
+        {
+          this.props.isShowBanner &&
           <div className="home-header-banner">
             <div className="content-top">
               <div className="title1"><FormattedMessage id="banner.title1" /></div>
@@ -150,6 +170,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    processLogout: () => dispatch(actions.processLogout()),
     changeLangue: (languageType) => dispatch(actions.changeLangue(languageType)),
   };
 };
