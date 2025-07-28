@@ -62,18 +62,18 @@ class Login extends Component {
         <div className="login-container login-container-admin">
           <div className="login-content row">
             <div className="col-12 text-login">
-              Login Admin
+              Đăng nhập
             </div>
             <div className="col-12 form-group login-input">
-              <span className="label-formLogin">User name</span>
-              <input type="text" className="form-control" placeholder="Enter your username"
+              <span className="label-formLogin">Tên đăng nhập</span>
+              <input type="text" className="form-control" placeholder="Tên đăng nhập"
                 value={this.state.userName} onChange={(e) => this.handleOnChangeInput(e, "UN")} />
             </div>
             <div className="col-12 form-group login-input">
-              <span className="label-formLogin">Password</span>
+              <span className="label-formLogin">Mật khẩu</span>
               <div className="show-hide-password">
                 <input type={this.state.isShowPassword ? "text" : "password"}
-                  className="form-control" placeholder="Enter your password"
+                  className="form-control" placeholder="Mật khẩu"
                   value={this.state.passWord} onChange={(e) => this.handleOnChangeInput(e, "PW")}
                   onKeyDown={this.handleEnter} />
                 <span onClick={() => this.setState({ isShowPassword: !this.state.isShowPassword })}>
@@ -86,11 +86,11 @@ class Login extends Component {
             </div>
             <div className="col-12 btn-login-content">
               <button className="btn-login" onClick={this.handleLogin}>
-                Login
+                Đăng nhập
               </button>
             </div>
             <div className="col-12">
-              <span className="forgot-password">Forgot your password</span>
+              <span className="forgot-password">Quên mật khẩu</span>
             </div>
           </div>
         </div>
