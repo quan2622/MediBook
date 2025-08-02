@@ -85,9 +85,7 @@ class DoctorSchedule extends Component {
     const { doctorId } = this.props;
     if (doctorId !== -1) {
       this.setState({ selectedOption: select });
-
       if (select.value === (new Date()).setHours(0, 0, 0, 0)) {
-
         this.setState({ isToday: true })
       } else {
         this.setState({ isToday: false });

@@ -11,7 +11,7 @@ export const adminIsAuthenticated = connectedRouterRedirect({
 export const userIsAuthenticated = connectedRouterRedirect({
     authenticatedSelector: state => state.user.isLoggedIn,
     wrapperDisplayName: 'UserIsAuthenticated',
-    redirectPath: '/login'
+    redirectPath: '/home'
 });
 
 export const adminIsNotAuthenticated = connectedRouterRedirect({

@@ -62,7 +62,7 @@ class Login extends Component {
         <div className="login-container login-container-admin">
           <div className="login-content row">
             <div className="col-12 text-login">
-              Đăng nhập
+              Đăng nhập Admin
             </div>
             <div className="col-12 form-group login-input">
               <span className="label-formLogin">Tên đăng nhập</span>
